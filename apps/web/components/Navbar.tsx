@@ -8,12 +8,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { RxHamburgerMenu } from "react-icons/rx";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@workspace/ui/components/dropdown-menu"
+import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger} from "@workspace/ui/components/dropdown-menu"
 const Navbar = () => {
     const router = useRouter()
     const { setUser } = useUserStore()
