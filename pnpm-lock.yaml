@@ -140,7 +140,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/typescript-config
       react-hook-form:
-        specifier: ^7.56.4
+        specifier: ^7.57.0
         version: 7.57.0(react@19.1.0)
       typescript:
         specifier: ^5.8.3
