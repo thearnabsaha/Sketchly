@@ -65,7 +65,21 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
             );
 
             ctx.stroke();
-        }
+        } else if (e.type === "Rhombus") {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const centerX = e.x + e.width / 2;
+    const centerY = e.y + e.height / 2;
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, e.y);                  // Top vertex
+    ctx.lineTo(e.x, centerY);                  // Left vertex
+    ctx.lineTo(centerX, e.y + e.height);      // Bottom vertex
+    ctx.lineTo(e.x + e.width, centerY);       // Right vertex
+    ctx.closePath();
+    ctx.stroke();
+}
     })
 }
 export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, canvas: HTMLCanvasElement) => {
@@ -100,7 +114,10 @@ export const drawLine = (
     ctx.strokeStyle = 'black';
     ctx.stroke();
 };
-export const drawCircle = (e: MouseEvent, startPoint: { x: number; y: number }, endPoint: { x: number; y: number }, canvas: HTMLCanvasElement) => {
+export const drawCircle = (
+    e: MouseEvent,
+    startPoint: { x: number; y: number }, 
+    canvas: HTMLCanvasElement) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -185,13 +202,41 @@ export const drawArrow = (
     ctx.strokeStyle = 'black';
     ctx.stroke();
 };
-export const handleMousedown = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setchooseShapes: any, existingShapes: any, setexistingShapes: any) => {
+export const drawRhombus = (
+    e: MouseEvent,
+    startPoint: { x: number; y: number },
+    canvas: HTMLCanvasElement
+) => {
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const endX = e.clientX - rect.left;
+    const endY = e.clientY - rect.top;
+
+    const width = endX - startPoint.x;
+    const height = endY - startPoint.y;
+
+    const centerX = startPoint.x + width / 2;
+    const centerY = startPoint.y + height / 2;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(centerX, startPoint.y);                 // Top vertex
+    ctx.lineTo(startPoint.x, centerY);                 // Left vertex
+    ctx.lineTo(centerX, startPoint.y + height);        // Bottom vertex
+    ctx.lineTo(startPoint.x + width, centerY);         // Right vertex
+    ctx.closePath();
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+};
+export const handleMousedown = (e: MouseEvent, canvasRef: any, setStartPoint: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rectangle = canvas.getBoundingClientRect()
     setStartPoint({ x: e.clientX - rectangle.left, y: e.clientY - rectangle.top })
 }
-export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setchooseShapes: any, existingShapes: any, setexistingShapes: any, endPoint: any, setendPoint: any) => {
+export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any,  setendPoint: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
@@ -201,7 +246,7 @@ export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, 
         drawRect(e, startPoint, canvas)
     }
     if (chooseShapes == "Circle") {
-        drawCircle(e, startPoint, endPoint, canvas)
+        drawCircle(e, startPoint, canvas)
     }
     if (chooseShapes === "Line") {
         drawLine(e, startPoint, canvas);
@@ -212,9 +257,12 @@ export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, 
     if (chooseShapes === "Arrow") {
         drawArrow(e, startPoint, canvas);
     }
+    if (chooseShapes === "Rhombus") {
+    drawRhombus(e, startPoint, canvas);
+}
     drawPreviousShapes(existingShapes, canvasRef)
 }
-export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setchooseShapes: any, existingShapes: any, setexistingShapes: any) => {
+export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any,  setexistingShapes: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
@@ -258,6 +306,14 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const height = y - startPoint.y
         setexistingShapes((prev: any) => [...prev, { type: "Arrow", x: startPoint.x, y: startPoint.y, width, height }])
     }
-
+    if (chooseShapes == "Rhombus") {
+        const rectangle = canvas.getBoundingClientRect()
+        const x = e.clientX - rectangle.left
+        const y = e.clientY - rectangle.top
+        const width = x - startPoint.x
+        const height = y - startPoint.y
+        setexistingShapes((prev: any) => [...prev, { type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height }])
+    }
+    
     setStartPoint(null)
 }
