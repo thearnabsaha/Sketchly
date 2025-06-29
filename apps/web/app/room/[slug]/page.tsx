@@ -8,7 +8,7 @@ const Room = () => {
   const [startPoint, setStartPoint] = useState<{ x: number, y: number } | null>(null)
   const [chooseShapes, setchooseShapes] = useState("rectangle")
   const [existingShapes, setexistingShapes] = useState<Rectangle[]>([])
-  const draw=()=>{
+  const drawRect=()=>{
       existingShapes.forEach((e) => {
       const canvas = canvasRef.current;
       const ctx = canvas?.getContext('2d');
@@ -28,31 +28,32 @@ const Room = () => {
     const handleMousemove = (e: MouseEvent) => {
       if (!startPoint) return;
       if(chooseShapes=="rectangle"){
-      const rectangle = canvas.getBoundingClientRect()
-      const x = e.clientX - rectangle.left
-      const y = e.clientY - rectangle.top
-      const width = x - startPoint.x
-      const height = y - startPoint.y
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.strokeStyle = 'black'
-      ctx.strokeRect(startPoint.x, startPoint.y, width, height)
+        const rectangle = canvas.getBoundingClientRect()
+        const x = e.clientX - rectangle.left
+        const y = e.clientY - rectangle.top
+        const width = x - startPoint.x
+        const height = y - startPoint.y
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.strokeStyle = 'black'
+        ctx.strokeRect(startPoint.x, startPoint.y, width, height)
       }
-      draw()
+      drawRect()
     }
     const handleMouseup = (e: MouseEvent) => {
       if (!startPoint) return;
-      const rectangle = canvas.getBoundingClientRect()
-      const x = e.clientX - rectangle.left
-      const y = e.clientY - rectangle.top
-      const width = x - startPoint.x
-      const height = y - startPoint.y
-      setexistingShapes((prev) => [...prev, { x:startPoint.x, y:startPoint.y, width, height }])
+      if(chooseShapes=="rectangle"){
+        const rectangle = canvas.getBoundingClientRect()
+        const x = e.clientX - rectangle.left
+        const y = e.clientY - rectangle.top
+        const width = x - startPoint.x
+        const height = y - startPoint.y
+        setexistingShapes((prev) => [...prev, { x:startPoint.x, y:startPoint.y, width, height }])
+      }
       setStartPoint(null)
     }
     canvas.addEventListener("mousedown", handleMousedown)
     canvas.addEventListener("mouseup", handleMouseup)
     canvas.addEventListener("mousemove", handleMousemove)
-
     return () => {
       canvas.removeEventListener("mousedown", handleMousedown)
       canvas.removeEventListener("mouseup", handleMouseup)
