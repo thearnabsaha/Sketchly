@@ -1,5 +1,4 @@
 export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
-    console.log(existingShapes)
     existingShapes.forEach((e: any) => {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');

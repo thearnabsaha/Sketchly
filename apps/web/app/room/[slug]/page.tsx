@@ -1,5 +1,5 @@
 "use client"
-import { handleMousedown, handleMousemove, handleMouseup } from '@/lib/actions/actions';
+import { drawPreviousShapes, handleMousedown, handleMousemove, handleMouseup } from '@/lib/actions/actions';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "Rhombus" | "Pencil", x: number, y: number, width: number, height: number, points?: { x: number; y: number }[]; }
@@ -18,6 +18,7 @@ const Room = () => {
     axios.get(`${BACKEND_URL}/shape/${roomId}`,{ headers: { Authorization: token } })
     .then((e) => {
       setexistingShapes(e.data.allshapes)
+      drawPreviousShapes(e.data.allshapes, canvasRef)
     })
     .catch((e) => console.log(e))
   }, [])
