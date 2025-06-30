@@ -37,7 +37,7 @@ model Shape {
   y         Float
   width     Float
   height    Float
-  pencilPoints PencilPoint[]  // for points if type = Pencil
+  pencilPoints PencilPoint[]  // for points if type = Penci
   room      Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
   user      User       @relation(fields: [userId], references: [id], name: "UserShapes")
 }
@@ -46,7 +46,7 @@ model PencilPoint {
   id       Int     @id @default(autoincrement())
   x        Float
   y        Float
-  shapeId  Int     @default(autoincrement())
+  shapeId  Int     
   shape    Shape   @relation(fields: [shapeId], references: [id], onDelete: Cascade)
 }
 
