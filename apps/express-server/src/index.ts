@@ -11,7 +11,7 @@ const morganFormat = ':method :url :status :response-time ms';
 app.use(morgan(morganFormat));
 app.use(helmet());
 import userRoutes from './routes/user.routes'
-import chatRoutes from './routes/chat.routes'
+import shapeRoutes from './routes/shape.routes'
 import roomRoutes from './routes/room.routes'
 import { CORS_ORIGIN } from './utils/config';
 app.use(cors({
@@ -24,6 +24,6 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 app.use('/',userRoutes);
-app.use('/chat/',chatRoutes);
+app.use('/shape/',shapeRoutes);
 app.use('/room/',roomRoutes);
 app.listen(port, () => console.log('> Server is up and running on port: ' + port));

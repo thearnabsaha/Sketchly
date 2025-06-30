@@ -347,7 +347,7 @@ export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, 
     }
     drawPreviousShapes(existingShapes, canvasRef)
 }
-export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any) => {
+export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any,setShape:any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
@@ -358,6 +358,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const width = x - startPoint.x
         const height = y - startPoint.y
         setexistingShapes((prev: any) => [...prev, { type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height }])
+        setShape({ type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height })
+
     }
     if (chooseShapes == "Circle") {
         const rectangle = canvas.getBoundingClientRect()
@@ -366,6 +368,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const width = x - startPoint.x
         const height = y - startPoint.y
         setexistingShapes((prev: any) => [...prev, { type: "Circle", x: startPoint.x, y: startPoint.y, width, height }])
+        setShape({ type: "Circle", x: startPoint.x, y: startPoint.y, width, height })
+
     }
     if (chooseShapes == "Line") {
         const rectangle = canvas.getBoundingClientRect()
@@ -374,6 +378,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const width = x - startPoint.x
         const height = y - startPoint.y
         setexistingShapes((prev: any) => [...prev, { type: "Line", x: startPoint.x, y: startPoint.y, width, height }])
+        setShape({ type: "Line", x: startPoint.x, y: startPoint.y, width, height })
+
     }
     if (chooseShapes == "Triangle") {
         const rectangle = canvas.getBoundingClientRect()
@@ -382,6 +388,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const width = x - startPoint.x
         const height = y - startPoint.y
         setexistingShapes((prev: any) => [...prev, { type: "Triangle", x: startPoint.x, y: startPoint.y, width, height }])
+        setShape({ type: "Triangle", x: startPoint.x, y: startPoint.y, width, height })
+
     }
     if (chooseShapes == "Arrow") {
         const rectangle = canvas.getBoundingClientRect()
@@ -390,6 +398,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const width = x - startPoint.x
         const height = y - startPoint.y
         setexistingShapes((prev: any) => [...prev, { type: "Arrow", x: startPoint.x, y: startPoint.y, width, height }])
+        setShape({ type: "Arrow", x: startPoint.x, y: startPoint.y, width, height })
+
     }
     if (chooseShapes == "Rhombus") {
         const rectangle = canvas.getBoundingClientRect()
@@ -398,6 +408,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const width = x - startPoint.x
         const height = y - startPoint.y
         setexistingShapes((prev: any) => [...prev, { type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height }])
+        setShape({ type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height })
+
     }
     if (chooseShapes == "Pencil") {
         const rectangle = canvas.getBoundingClientRect()
@@ -406,7 +418,9 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const width = x - startPoint.x
         const height = y - startPoint.y
         setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints }])
+        setShape({ type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints })
         setPencilPoints([]);
+
     }
 
     setStartPoint(null)

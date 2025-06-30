@@ -16,7 +16,7 @@ model User {
   photo         String?
   photo2        String?
   rooms         Room[]
-  chats         Chat[]
+  shapes        Shape[]    @relation("UserShapes")
 }
 
 model Room {
@@ -25,14 +25,37 @@ model Room {
   createdAt   DateTime  @default(now())
   adminId     String
   admin       User      @relation(fields: [adminId], references: [id])
-  chats       Chat[]
+  shapes      Shape[]
 }
 
-model Chat {
-  id        Int        @id  @default(autoincrement())
+model Shape {
+  id        Int        @id @default(autoincrement())
   roomId    Int
-  message   String
   userId    String
-  room      Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  user      User      @relation(fields: [userId], references: [id])
+  type      ShapeType
+  x         Float
+  y         Float
+  width     Float
+  height    Float
+  pencilPoints PencilPoint[]  // for points if type = Pencil
+  room      Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user      User       @relation(fields: [userId], references: [id], name: "UserShapes")
+}
+
+model PencilPoint {
+  id       Int     @id @default(autoincrement())
+  x        Float
+  y        Float
+  shapeId  Int     @default(autoincrement())
+  shape    Shape   @relation(fields: [shapeId], references: [id], onDelete: Cascade)
+}
+
+enum ShapeType {
+  Rectangle
+  Circle
+  Line
+  Triangle
+  Arrow
+  Rhombus
+  Pencil
 }
