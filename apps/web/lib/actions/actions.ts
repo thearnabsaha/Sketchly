@@ -66,20 +66,39 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
 
             ctx.stroke();
         } else if (e.type === "Rhombus") {
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
 
-    const centerX = e.x + e.width / 2;
-    const centerY = e.y + e.height / 2;
+            const centerX = e.x + e.width / 2;
+            const centerY = e.y + e.height / 2;
 
-    ctx.beginPath();
-    ctx.moveTo(centerX, e.y);                  // Top vertex
-    ctx.lineTo(e.x, centerY);                  // Left vertex
-    ctx.lineTo(centerX, e.y + e.height);      // Bottom vertex
-    ctx.lineTo(e.x + e.width, centerY);       // Right vertex
-    ctx.closePath();
-    ctx.stroke();
-}
+            ctx.beginPath();
+            ctx.moveTo(centerX, e.y);                  // Top vertex
+            ctx.lineTo(e.x, centerY);                  // Left vertex
+            ctx.lineTo(centerX, e.y + e.height);      // Bottom vertex
+            ctx.lineTo(e.x + e.width, centerY);       // Right vertex
+            ctx.closePath();
+            ctx.stroke();
+        } else if (e.type === "Pencil") {
+            const points = e.points;
+            if (!points || points.length < 2) return;
+
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+
+            for (let i = 1; i < points.length - 1; i++) {
+                const midX = (points[i].x + points[i + 1].x) / 2;
+                const midY = (points[i].y + points[i + 1].y) / 2;
+                ctx.quadraticCurveTo(points[i].x, points[i].y, midX, midY);
+            }
+            // Draw the last segment
+            const last = points[points.length - 1];
+            if (last) {
+                ctx.lineTo(last.x, last.y);
+            }
+
+            ctx.stroke();
+        }
     })
 }
 export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, canvas: HTMLCanvasElement) => {
@@ -116,7 +135,7 @@ export const drawLine = (
 };
 export const drawCircle = (
     e: MouseEvent,
-    startPoint: { x: number; y: number }, 
+    startPoint: { x: number; y: number },
     canvas: HTMLCanvasElement) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -230,13 +249,76 @@ export const drawRhombus = (
     ctx.strokeStyle = 'black';
     ctx.stroke();
 };
-export const handleMousedown = (e: MouseEvent, canvasRef: any, setStartPoint: any) => {
+export const drawPencil = (
+    e: MouseEvent,
+    pencilPoints: { x: number; y: number }[],
+    canvas: HTMLCanvasElement
+) => {
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    if (!pencilPoints) return;
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    pencilPoints.push({ x, y });
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+
+    if (pencilPoints.length < 2) {
+        // Not enough points to draw curves, just draw a dot or move to first point
+        const p = pencilPoints[0];
+        if (p) {
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p.x, p.y);
+        }
+    } else {
+        if (pencilPoints[0]) {
+            ctx.moveTo(pencilPoints[0].x, pencilPoints[0].y);
+
+            for (let i = 1; i < pencilPoints.length - 1; i++) {
+                if (pencilPoints[i + 1]) {
+                    if (pencilPoints[i + 1]) {
+                        //@ts-ignore
+                        const midX = (pencilPoints[i].x + pencilPoints[i + 1].x) / 2;
+                        //@ts-ignore
+                        const midY = (pencilPoints[i].y + pencilPoints[i + 1].y) / 2;
+                        if (pencilPoints[i]) {
+                            ctx.quadraticCurveTo(pencilPoints[i]!.x, pencilPoints[i]!.y, midX, midY);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Draw last line segment
+        const last = pencilPoints[pencilPoints.length - 1];
+        if (last) {
+            ctx.lineTo(last.x, last.y);
+        }
+    }
+
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+};
+
+export const handleMousedown = (e: MouseEvent, canvasRef: any, setStartPoint: any, chooseShapes: any, setPencilPoints: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    if (chooseShapes === "Pencil") {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        setStartPoint({ x, y });
+        setPencilPoints([{ x, y }]);
+    }
     const rectangle = canvas.getBoundingClientRect()
     setStartPoint({ x: e.clientX - rectangle.left, y: e.clientY - rectangle.top })
+
 }
-export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any,  setendPoint: any) => {
+export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any, setendPoint: any, pencilPoints: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
@@ -258,11 +340,14 @@ export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, 
         drawArrow(e, startPoint, canvas);
     }
     if (chooseShapes === "Rhombus") {
-    drawRhombus(e, startPoint, canvas);
-}
+        drawRhombus(e, startPoint, canvas);
+    }
+    if (chooseShapes === "Pencil" && pencilPoints.length > 0) {
+        drawPencil(e, pencilPoints, canvas);
+    }
     drawPreviousShapes(existingShapes, canvasRef)
 }
-export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any,  setexistingShapes: any) => {
+export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
@@ -314,6 +399,15 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const height = y - startPoint.y
         setexistingShapes((prev: any) => [...prev, { type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height }])
     }
-    
+    if (chooseShapes == "Pencil") {
+        const rectangle = canvas.getBoundingClientRect()
+        const x = e.clientX - rectangle.left
+        const y = e.clientY - rectangle.top
+        const width = x - startPoint.x
+        const height = y - startPoint.y
+        setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints }])
+        setPencilPoints([]);
+    }
+
     setStartPoint(null)
 }
