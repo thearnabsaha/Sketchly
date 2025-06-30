@@ -1,4 +1,5 @@
 export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
+    console.log(existingShapes)
     existingShapes.forEach((e: any) => {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
@@ -420,8 +421,6 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints }])
         setShape({ type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints })
         setPencilPoints([]);
-
     }
-
     setStartPoint(null)
 }

@@ -14,13 +14,15 @@ const Room = () => {
   const [pencilPoints, setPencilPoints] = useState<{ x: number; y: number }[]>([]);
   useEffect(() => {
     const token = localStorage.getItem("token")
-    // const shape = existingShapes[0]
-    console.log(existingShapes)
-    // axios.get(`${BACKEND_URL}/shape/${}`,
-
-    //   { headers: { Authorization: token } })
-    //   .then((e) => console.log(e))
-    //   .catch((e) => console.log(e))
+    const roomId = localStorage.getItem("roomId")
+    axios.get(`${BACKEND_URL}/shape/${roomId}`,{ headers: { Authorization: token } })
+    .then((e) => {
+      setexistingShapes(e.data.allshapes)
+    })
+    .catch((e) => console.log(e))
+  }, [])
+  useEffect(() => {
+    const token = localStorage.getItem("token")
     axios.post(`${BACKEND_URL}/shape`,
       {
         type: shape?.type,
@@ -31,7 +33,7 @@ const Room = () => {
         y: shape?.y
       },
       { headers: { Authorization: token } })
-      .then((e) => console.log(e))
+      .then()
       .catch((e) => console.log(e))
   }, [existingShapes])
   const chooseRectangle = () => {
@@ -55,8 +57,6 @@ const Room = () => {
   const choosePencil = () => {
     setchooseShapes("Pencil")
   }
-
-
   return (
     <div className='flex justify-center relative'>
       <div className=" absolute text-center flex mt-5 bg-green-400 rounded-md justify-center p-1">

@@ -42,8 +42,8 @@ export const RoomShapes = async (req: Request, res: Response) => {
             res.status(400).json({message:"Room is not Valid!"})
             return;
         }
-        const allchats=await prisma.shape.findMany({where:{roomId:room.id}})
-        res.status(200).json({allchats})
+        const allshapes=await prisma.shape.findMany({where:{roomId:room.id}})
+        res.status(200).json({allshapes})
     } catch (error) {
         console.log(error)
         res.status(500).json({error})
