@@ -101,6 +101,32 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
         }
     })
 }
+const isPointNearLine = (px: number, py: number, x1: number, y1: number, x2: number, y2: number, threshold = 5) => {
+    const A = px - x1;
+    const B = py - y1;
+    const C = x2 - x1;
+    const D = y2 - y1;
+
+    const dot = A * C + B * D;
+    const lenSq = C * C + D * D;
+    const param = lenSq !== 0 ? dot / lenSq : -1;
+
+    let xx, yy;
+    if (param < 0) {
+        xx = x1;
+        yy = y1;
+    } else if (param > 1) {
+        xx = x2;
+        yy = y2;
+    } else {
+        xx = x1 + param * C;
+        yy = y1 + param * D;
+    }
+
+    const dx = px - xx;
+    const dy = py - yy;
+    return Math.sqrt(dx * dx + dy * dy) < threshold;
+};
 export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, canvas: HTMLCanvasElement) => {
     const rectangle = canvas.getBoundingClientRect()
     const ctx = canvas?.getContext('2d');
@@ -303,6 +329,73 @@ export const drawPencil = (
     ctx.strokeStyle = 'black';
     ctx.stroke();
 };
+let newShapesAfterErasing: any = null;
+export const handleEraserClick = (
+    e: MouseEvent,
+    canvasRef: any,
+    existingShapes: any[],
+    setexistingShapes: any,
+    setShape: any
+) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+
+    const newShapes = existingShapes.filter((shape) => {
+        if (shape.type === "Rectangle") {
+            return !(
+                clickX >= shape.x &&
+                clickX <= shape.x + shape.width &&
+                clickY >= shape.y &&
+                clickY <= shape.y + shape.height
+            );
+        }
+
+        if (shape.type === "Circle") {
+            const centerX = shape.x + shape.width / 2;
+            const centerY = shape.y + shape.height / 2;
+            const radiusX = shape.width / 2;
+            const radiusY = shape.height / 2;
+            const dx = clickX - centerX;
+            const dy = clickY - centerY;
+            return (dx * dx) / (radiusX * radiusX) + (dy * dy) / (radiusY * radiusY) > 1;
+        }
+
+        if (shape.type === "Line" || shape.type === "Arrow") {
+            return !isPointNearLine(
+                clickX, clickY,
+                shape.x, shape.y,
+                shape.x + shape.width, shape.y + shape.height
+            );
+        }
+
+        if (shape.type === "Triangle" || shape.type === "Rhombus") {
+            // rough bounding box check
+            return !(
+                clickX >= shape.x &&
+                clickX <= shape.x + shape.width &&
+                clickY >= shape.y &&
+                clickY <= shape.y + shape.height
+            );
+        }
+
+        // if (shape.type === "Pencil" || shape.type === "PenTool") {
+        //     const points = shape.points;
+        //     for (let i = 0; i < points.length - 1; i++) {
+        //         if (isPointNearLine(clickX, clickY, points[i].x, points[i].y, points[i + 1].x, points[i + 1].y)) {
+        //             return false; // erase
+        //         }
+        //     }
+        //     return true;
+        // }
+
+        setShape(shape)
+        return true;
+    });
+    newShapesAfterErasing = newShapes
+};
 
 export const handleMousedown = (e: MouseEvent, canvasRef: any, setStartPoint: any, chooseShapes: any, setPencilPoints: any) => {
     const canvas = canvasRef.current;
@@ -318,7 +411,7 @@ export const handleMousedown = (e: MouseEvent, canvasRef: any, setStartPoint: an
     setStartPoint({ x: e.clientX - rectangle.left, y: e.clientY - rectangle.top })
 
 }
-export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any, setendPoint: any, pencilPoints: any) => {
+export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any, setendPoint: any, pencilPoints: any, setexistingShapes: any, setShape: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
@@ -345,9 +438,13 @@ export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, 
     if (chooseShapes === "Pencil" && pencilPoints.length > 0) {
         drawPencil(e, pencilPoints, canvas);
     }
+    if (chooseShapes === "Eraser") {
+        handleEraserClick(e, canvasRef, existingShapes, setexistingShapes, setShape);
+        return;
+    }
     drawPreviousShapes(existingShapes, canvasRef)
 }
-export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any, setShape: any) => {
+export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any, setShape: any, existingShapes: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
@@ -420,6 +517,17 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints }])
         setShape({ type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints })
         setPencilPoints([]);
+    }
+    if (chooseShapes == "Eraser") {
+        const rectangle = canvas.getBoundingClientRect()
+        const x = e.clientX - rectangle.left
+        const y = e.clientY - rectangle.top
+        const width = x - startPoint.x
+        const height = y - startPoint.y
+        console.log("hi", newShapesAfterErasing)
+        setexistingShapes(newShapesAfterErasing)
+        // drawPreviousShapes(existingShapes, canvasRef)
+
     }
     setStartPoint(null)
 }

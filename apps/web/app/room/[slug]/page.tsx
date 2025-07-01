@@ -2,7 +2,7 @@
 import { drawPreviousShapes, handleMousedown, handleMousemove, handleMouseup } from '@/lib/actions/actions';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
-type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "Rhombus" | "Pencil", x: number, y: number, width: number, height: number, points?: { x: number; y: number }[]; }
+type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "Rhombus" | "Pencil" | "Eraser", x: number, y: number, width: number, height: number, points?: { x: number; y: number }[]; }
 import { BACKEND_URL } from "@/lib/config"
 const Room = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -24,19 +24,46 @@ const Room = () => {
   }, [])
   useEffect(() => {
     const token = localStorage.getItem("token")
-    axios.post(`${BACKEND_URL}/shape`,
-      {
-        type: shape?.type,
-        width: shape?.width,
-        height: shape?.height,
-        pencilPoints:shape?.points,
-        x: shape?.x,
-        y: shape?.y
-      },
-      { headers: { Authorization: token } })
-      .then()
-      .catch((e) => console.log(e))
+    // console.log(shape)
+    console.log("from page : ",existingShapes)
+    if(chooseShapes!=="Eraser"){
+      axios.post(`${BACKEND_URL}/shape`,
+        {
+          type: shape?.type,
+          width: shape?.width,
+          height: shape?.height,
+          pencilPoints:shape?.points,
+          x: shape?.x,
+          y: shape?.y
+        },
+        { headers: { Authorization: token } })
+        .then()
+        .catch((e) => console.log(e))
+    }
+    if(chooseShapes==="Eraser"){
+      axios.post(`${BACKEND_URL}/shape/delete`,
+        {
+          type: shape?.type,
+          width: shape?.width,
+          height: shape?.height,
+          pencilPoints:shape?.points,
+          x: shape?.x,
+          y: shape?.y
+        },
+        { headers: { Authorization: token } })
+        .then((e) => console.log(e))
+        .catch((e) => console.log(e))
+    }
+        // const token = localStorage.getItem("token")
+    // const roomId = localStorage.getItem("roomId")
+    // axios.get(`${BACKEND_URL}/shape/${roomId}`,{ headers: { Authorization: token } })
+    // .then((e) => {
+    //   setexistingShapes(e.data.allshapes)
+    //   drawPreviousShapes(e.data.allshapes, canvasRef)
+    // })
+    // .catch((e) => console.log(e))
   }, [existingShapes])
+
   const chooseRectangle = () => {
     setchooseShapes("Rectangle")
   }
@@ -58,6 +85,9 @@ const Room = () => {
   const choosePencil = () => {
     setchooseShapes("Pencil")
   }
+  const chooseEraser = () => {
+    setchooseShapes("Eraser")
+  }
   return (
     <div className='flex justify-center relative'>
       <div className=" absolute text-center flex mt-5 bg-green-400 rounded-md justify-center p-1">
@@ -68,6 +98,7 @@ const Room = () => {
         <div className='p-3 rounded-md bg-orange-300 m-1' onClick={chooseArrow}>Arrow</div>
         <div className='p-3 rounded-md bg-orange-300 m-1' onClick={chooseRhombus}>Rhombus</div>
         <div className='p-3 rounded-md bg-orange-300 m-1' onClick={choosePencil}>Pencil</div>
+        <div className='p-3 rounded-md bg-orange-300 m-1' onClick={chooseEraser}>Eraser</div>
       </div>
       <canvas
         id="myCanvas"
@@ -76,8 +107,8 @@ const Room = () => {
         width={1600}
         ref={canvasRef}
         onMouseDown={(e) => handleMousedown(e.nativeEvent, canvasRef, setStartPoint, chooseShapes, setPencilPoints)}
-        onMouseMove={(e) => handleMousemove(e.nativeEvent, canvasRef, startPoint, chooseShapes, existingShapes, setendPoint, pencilPoints)}
-        onMouseUp={(e) => handleMouseup(e.nativeEvent, canvasRef, startPoint, setStartPoint, chooseShapes, setexistingShapes, setPencilPoints, pencilPoints,setShape)}>
+        onMouseMove={(e) => handleMousemove(e.nativeEvent, canvasRef, startPoint, chooseShapes, existingShapes, setendPoint, pencilPoints,setexistingShapes,setShape)}
+        onMouseUp={(e) => handleMouseup(e.nativeEvent, canvasRef, startPoint, setStartPoint, chooseShapes, setexistingShapes, setPencilPoints, pencilPoints,setShape,existingShapes)}>
       </canvas>
     </div>
   )
