@@ -5,7 +5,7 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
         if (!canvas || !ctx) return;
-        ctx.strokeStyle = shapeColor
+        ctx.strokeStyle = e.color
         if (e.type == "Rectangle") {
             ctx.strokeRect(e.x, e.y, e.width, e.height)
         } else if (e.type == "Circle") {

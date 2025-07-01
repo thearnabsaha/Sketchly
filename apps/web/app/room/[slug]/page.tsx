@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react'
 type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "Rhombus" | "Pencil" | "Eraser", x: number, y: number, width: number, height: number, points?: { x: number; y: number }[]; }
 import { BACKEND_URL } from "@/lib/config"
 import { ArrowRight, Circle, Diamond, Eraser, LineChart, Pencil, RectangleHorizontal, Slash, Triangle } from 'lucide-react';
+import { darkColor1, darkColor2, darkColor3, darkColor4, darkColor5, darkColor6, darkColor7, darkColor8 } from '@/lib/actions/colors';
 const Room = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [startPoint, setStartPoint] = useState<{ x: number, y: number } | null>(null)
@@ -14,6 +15,7 @@ const Room = () => {
   const [shape, setShape] = useState<Shape>()
   const [pencilPoints, setPencilPoints] = useState<{ x: number; y: number }[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  const [chooseColors, setChooseColors] = useState("black")
   useEffect(() => {
     setDimensions({ width: window.innerWidth, height: window.innerHeight })
     const token = localStorage.getItem("token")
@@ -91,9 +93,32 @@ const Room = () => {
   const chooseEraser = () => {
     setchooseShapes("Eraser")
   }
-  const chooseColor = () => {
-
+  console.log(chooseColors)
+  const chooseColor2 = () => {
+    setChooseColors(darkColor2)
   }
+  const chooseColor3 = () => {
+    setChooseColors(darkColor3)
+  }
+  const chooseColor4 = () => {
+    setChooseColors(darkColor4)
+  }
+  const chooseColor5 = () => {
+    setChooseColors(darkColor5)
+  }
+  const chooseColor6 = () => {
+    setChooseColors(darkColor6)
+  }
+  const chooseColor1 = () => {
+    setChooseColors(darkColor1)
+  }
+  const chooseColor7 = () => {
+    setChooseColors(darkColor7)
+  }
+  const chooseColor8 = () => {
+    setChooseColors(darkColor8)
+  }
+
   return (
     <div className='flex justify-center relative'>
       <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1">
@@ -108,16 +133,16 @@ const Room = () => {
       </div>
       <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1 left-10 top-50">
         <div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-1' onClick={chooseRectangle}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-2' onClick={chooseRectangle}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-ring' onClick={chooseRectangle}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-destructive' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-1' onClick={chooseColor1}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-2' onClick={chooseColor2}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-ring' onClick={chooseColor3}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-destructive' onClick={chooseColor4}></div>
         </div>
         <div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-foreground' onClick={chooseRectangle}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-3' onClick={chooseRectangle}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-4' onClick={chooseRectangle}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-5' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-foreground' onClick={chooseColor5}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-3' onClick={chooseColor6}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-4' onClick={chooseColor7}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-5' onClick={chooseColor8}></div>
         </div>
 
 
