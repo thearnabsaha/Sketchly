@@ -1,9 +1,11 @@
+import { shapeColor } from "./colors";
+
 export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
     existingShapes.forEach((e: any) => {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
         if (!canvas || !ctx) return;
-        ctx.strokeStyle = 'black'
+        ctx.strokeStyle = shapeColor
         if (e.type == "Rectangle") {
             ctx.strokeRect(e.x, e.y, e.width, e.height)
         } else if (e.type == "Circle") {
@@ -137,7 +139,7 @@ export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, ca
     const width = x - startPoint.x
     const height = y - startPoint.y
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.strokeStyle = 'black'
+    ctx.strokeStyle = shapeColor
     ctx.strokeRect(startPoint.x, startPoint.y, width, height)
 }
 export const drawLine = (

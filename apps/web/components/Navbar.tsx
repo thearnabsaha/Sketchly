@@ -43,7 +43,7 @@ const Navbar = () => {
     }
     return (
         <div className="bg-accent sm:py-5 py-1 sm:my-5 mt-1 mb-1 md:mx-10 mx-3 rounded-xl flex justify-between">
-            <h1 className="text-3xl pl-10">Chaty</h1>
+            <h1 className="text-3xl pl-10">Sketchly</h1>
             <DropdownMenu>
                 <DropdownMenuTrigger className="md:hidden px-4 py-1.5 rounded-md cursor-pointer mr-10"><RxHamburgerMenu className="text-3xl" /></DropdownMenuTrigger>
                 <DropdownMenuContent>
