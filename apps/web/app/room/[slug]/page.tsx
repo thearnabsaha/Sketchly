@@ -134,16 +134,16 @@ const Room = () => {
       </div>
       <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1 left-10 top-50">
         <div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-1' onClick={chooseColor1}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-2' onClick={chooseColor2}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-ring' onClick={chooseColor3}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-destructive' onClick={chooseColor4}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:RedColor}} onClick={chooseColor1}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:BlueColor}} onClick={chooseColor2}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:VioletColor}} onClick={chooseColor3}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:GreenColor}} onClick={chooseColor4}></div>
         </div>
         <div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-foreground' onClick={chooseColor5}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-3' onClick={chooseColor6}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-4' onClick={chooseColor7}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-5' onClick={chooseColor8}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:GoldColor}} onClick={chooseColor5}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:TealColor}} onClick={chooseColor6}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:darkColor7}} onClick={chooseColor7}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:darkColor8}} onClick={chooseColor8}></div>
         </div>
 
 

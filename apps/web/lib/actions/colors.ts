@@ -1,10 +1,5 @@
-// export const darkColor1 = "oklch(0.75 0.12 264.376)"  /* deep indigo */
-// export const darkColor2 = "oklch(0.82 0.10 320)"      /* soft violet-pink */
-// export const darkColor3 = "oklch(0.85 0.10 70.08)"    /* pale yellow */
-// export const darkColor4 = "oklch(0.80 0.10 162.48)"   /* cool green */
-// export const darkColor5 = "oklch(0.82 0.12 210)"      /* soft teal-blue */
-// export const darkColor6 = "oklch(0.80 0.14 27)"   /* soft red */
-export const darkColor7 = "oklch(0.80 0.14 27)"   /* soft red */
+
+export const darkColor7 = "oklch(0.708 0 0)"   /* soft red */
 export const darkColor8 = "oklch(0.80 0.14 27)"   /* soft red */
 
 export const BlueColor = "oklch(0.55 0.25 264.376)"  /* vivid indigo */
