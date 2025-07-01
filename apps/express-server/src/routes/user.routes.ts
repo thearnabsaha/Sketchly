@@ -2,7 +2,7 @@ import { Router } from "express";
 import { jwtAuth } from "../middlewares/jwtAuth";
 import { HealthCheck, Server, UserProfile, UserSignIn, UserSignUp } from "../controllers/user.controller";
 
-const router = Router();
+const router:Router = Router();
 
 router.post("/signup", UserSignUp);
 router.post("/signin", UserSignIn);

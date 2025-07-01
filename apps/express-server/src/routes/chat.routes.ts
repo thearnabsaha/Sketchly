@@ -2,7 +2,7 @@ import { Router } from "express";
 import { jwtAuth } from "../middlewares/jwtAuth";
 import { AllChats, CreateChats, DeleteAllChats, DeleteChat, DeleteRoomChat, RoomChats, UpdateChat } from "../controllers/chat.controller";
 
-const router = Router();
+const router:Router = Router();
 
 router.post("/", jwtAuth, CreateChats);
 router.get("/", jwtAuth, AllChats);
