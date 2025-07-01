@@ -37,18 +37,19 @@ model Shape {
   y         Float
   width     Float
   height    Float
-  pencilPoints PencilPoint[]  // for points if type = Penci
+  pencilPoints Json?  // for points if type = Penci
+  // pencilPoints PencilPoint[]  // for points if type = Penci
   room      Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
   user      User       @relation(fields: [userId], references: [id], name: "UserShapes")
 }
 
-model PencilPoint {
-  id       Int     @id @default(autoincrement())
-  x        Float
-  y        Float
-  shapeId  Int     
-  shape    Shape   @relation(fields: [shapeId], references: [id], onDelete: Cascade)
-}
+// model PencilPoint {
+//   id       Int     @id @default(autoincrement())
+//   x        Float
+//   y        Float
+//   shapeId  Int     
+//   shape    Shape   @relation(fields: [shapeId], references: [id], onDelete: Cascade)
+// }
 
 enum ShapeType {
   Rectangle

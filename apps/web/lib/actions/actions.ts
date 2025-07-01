@@ -80,7 +80,7 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
             ctx.closePath();
             ctx.stroke();
         } else if (e.type === "Pencil") {
-            const points = e.points;
+            const points = e.pencilPoints;
             if (!points || points.length < 2) return;
 
             ctx.beginPath();
@@ -347,7 +347,7 @@ export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, 
     }
     drawPreviousShapes(existingShapes, canvasRef)
 }
-export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any,setShape:any) => {
+export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any, setShape: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
