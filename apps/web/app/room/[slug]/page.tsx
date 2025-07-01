@@ -108,16 +108,16 @@ const Room = () => {
       </div>
       <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1 left-10 top-50">
         <div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-3' onClick={chooseRectangle}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-5' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-1' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-2' onClick={chooseRectangle}></div>
           <div className='p-3 rounded-md text-background m-1 size-5 bg-ring' onClick={chooseRectangle}></div>
           <div className='p-3 rounded-md text-background m-1 size-5 bg-destructive' onClick={chooseRectangle}></div>
         </div>
         <div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-background' onClick={chooseRectangle}></div>
           <div className='p-3 rounded-md text-background m-1 size-5 bg-foreground' onClick={chooseRectangle}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-1' onClick={chooseRectangle}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-2' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-3' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-4' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-5' onClick={chooseRectangle}></div>
         </div>
 
 
