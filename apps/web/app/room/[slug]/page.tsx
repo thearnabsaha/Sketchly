@@ -2,10 +2,10 @@
 import { drawPreviousShapes, handleMousedown, handleMousemove, handleMouseup } from '@/lib/actions/actions';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
-type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "Rhombus" | "Pencil" | "Eraser", x: number, y: number, width: number, height: number, points?: { x: number; y: number }[]; }
+type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "Rhombus" | "Pencil" | "Eraser", x: number, y: number, width: number, height: number, points?: { x: number; y: number }[],color:string }
 import { BACKEND_URL } from "@/lib/config"
 import { ArrowRight, Circle, Diamond, Eraser, LineChart, Pencil, RectangleHorizontal, Slash, Triangle } from 'lucide-react';
-import { darkColor1, darkColor2, darkColor3, darkColor4, darkColor5, darkColor6, darkColor7, darkColor8 } from '@/lib/actions/colors';
+import { BlueColor, darkColor7, darkColor8, GoldColor, GreenColor, RedColor, TealColor, VioletColor } from '@/lib/actions/colors';
 const Room = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [startPoint, setStartPoint] = useState<{ x: number, y: number } | null>(null)
@@ -37,6 +37,7 @@ const Room = () => {
           type: shape?.type,
           width: shape?.width,
           height: shape?.height,
+          color: shape?.color,
           pencilPoints: shape?.points,
           x: shape?.x,
           y: shape?.y
@@ -95,22 +96,22 @@ const Room = () => {
   }
   console.log(chooseColors)
   const chooseColor2 = () => {
-    setChooseColors(darkColor2)
+    setChooseColors(BlueColor)
   }
   const chooseColor3 = () => {
-    setChooseColors(darkColor3)
+    setChooseColors(VioletColor)
   }
   const chooseColor4 = () => {
-    setChooseColors(darkColor4)
+    setChooseColors(GreenColor)
   }
   const chooseColor5 = () => {
-    setChooseColors(darkColor5)
+    setChooseColors(GoldColor)
   }
   const chooseColor6 = () => {
-    setChooseColors(darkColor6)
+    setChooseColors(TealColor)
   }
   const chooseColor1 = () => {
-    setChooseColors(darkColor1)
+    setChooseColors(RedColor)
   }
   const chooseColor7 = () => {
     setChooseColors(darkColor7)
@@ -154,8 +155,8 @@ const Room = () => {
         width={dimensions.width}
         ref={canvasRef}
         onMouseDown={(e) => handleMousedown(e.nativeEvent, canvasRef, setStartPoint, chooseShapes, setPencilPoints)}
-        onMouseMove={(e) => handleMousemove(e.nativeEvent, canvasRef, startPoint, chooseShapes, existingShapes, setendPoint, pencilPoints, setexistingShapes, setShape)}
-        onMouseUp={(e) => handleMouseup(e.nativeEvent, canvasRef, startPoint, setStartPoint, chooseShapes, setexistingShapes, setPencilPoints, pencilPoints, setShape, existingShapes)}>
+        onMouseMove={(e) => handleMousemove(e.nativeEvent, canvasRef, startPoint, chooseShapes, existingShapes, setendPoint, pencilPoints, setexistingShapes, setShape,chooseColors)}
+        onMouseUp={(e) => handleMouseup(e.nativeEvent, canvasRef, startPoint, setStartPoint, chooseShapes, setexistingShapes, setPencilPoints, pencilPoints, setShape, existingShapes,chooseColors)}>
       </canvas>
     </div>
   )

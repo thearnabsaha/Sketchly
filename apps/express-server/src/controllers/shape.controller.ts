@@ -20,7 +20,7 @@ export const CreateShapes = async (req: Request, res: Response) => {
             width:req.body.width,
             height:req.body.height,
             pencilPoints:req.body.pencilPoints,
-            // color:req.body.color,
+            color:req.body.color,
             x:req.body.x,
             y:req.body.y
         }})

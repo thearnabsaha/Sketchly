@@ -27,12 +27,12 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.75 0.12 264.376);  /* deep indigo */
-  --chart-2: oklch(0.82 0.10 320);      /* soft violet-pink */
-  --chart-3: oklch(0.85 0.10 70.08);    /* pale yellow */
-  --chart-4: oklch(0.80 0.10 162.48);   /* cool green */
-  --chart-5: oklch(0.82 0.12 210);      /* soft teal-blue */
-  --destructive: oklch(0.80 0.14 27);   /* soft red */
+  --chart-1: oklch(0.55 0.25 264.376);  /* vivid indigo */
+  --chart-2: oklch(0.63 0.27 320);      /* bold violet-pink */
+  --chart-3: oklch(0.70 0.24 70.08);    /* gold */
+  --chart-4: oklch(0.65 0.24 162.48);   /* neon green */
+  --chart-5: oklch(0.66 0.25 210);      /* strong teal-blue */
+  --destructive: oklch(0.65 0.25 27);   /* strong red */
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);

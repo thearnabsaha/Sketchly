@@ -129,7 +129,7 @@ const isPointNearLine = (px: number, py: number, x1: number, y1: number, x2: num
     const dy = py - yy;
     return Math.sqrt(dx * dx + dy * dy) < threshold;
 };
-export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, canvas: HTMLCanvasElement) => {
+export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, canvas: HTMLCanvasElement,chooseColors:string) => {
     const rectangle = canvas.getBoundingClientRect()
     const ctx = canvas?.getContext('2d');
     if (!ctx) return;
@@ -139,13 +139,15 @@ export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, ca
     const width = x - startPoint.x
     const height = y - startPoint.y
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.strokeStyle = shapeColor
+    //
+    ctx.strokeStyle = chooseColors
     ctx.strokeRect(startPoint.x, startPoint.y, width, height)
 }
 export const drawLine = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
-    canvas: HTMLCanvasElement
+    canvas: HTMLCanvasElement,
+    chooseColors:string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -158,13 +160,15 @@ export const drawLine = (
     ctx.beginPath();
     ctx.moveTo(startPoint.x, startPoint.y);
     ctx.lineTo(endX, endY);
-    ctx.strokeStyle = shapeColor;
+    ctx.strokeStyle = chooseColors;
     ctx.stroke();
 };
 export const drawCircle = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
-    canvas: HTMLCanvasElement) => {
+    canvas: HTMLCanvasElement,
+    chooseColors:string
+) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -184,13 +188,14 @@ export const drawCircle = (
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.ellipse(centerX, centerY, width / 2, height / 2, 0, 0, 2 * Math.PI);
-    ctx.strokeStyle = shapeColor;
+    ctx.strokeStyle = chooseColors;
     ctx.stroke();
 };
 export const drawTriangle = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
-    canvas: HTMLCanvasElement
+    canvas: HTMLCanvasElement,
+    chooseColors:string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -207,13 +212,14 @@ export const drawTriangle = (
     ctx.lineTo(startPoint.x, endY);           // Bottom-left vertex
     ctx.lineTo(endX, endY);                   // Bottom-right vertex
     ctx.closePath();
-    ctx.strokeStyle = shapeColor;
+    ctx.strokeStyle = chooseColors;
     ctx.stroke();
 };
 export const drawArrow = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
-    canvas: HTMLCanvasElement
+    canvas: HTMLCanvasElement,
+    chooseColors:string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -246,13 +252,14 @@ export const drawArrow = (
         endY - headLength * Math.sin(angle + Math.PI / 6)
     );
 
-    ctx.strokeStyle = shapeColor;
+    ctx.strokeStyle = chooseColors;
     ctx.stroke();
 };
 export const drawRhombus = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
-    canvas: HTMLCanvasElement
+    canvas: HTMLCanvasElement,
+    chooseColors:string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -274,13 +281,14 @@ export const drawRhombus = (
     ctx.lineTo(centerX, startPoint.y + height);        // Bottom vertex
     ctx.lineTo(startPoint.x + width, centerY);         // Right vertex
     ctx.closePath();
-    ctx.strokeStyle = shapeColor;
+    ctx.strokeStyle = chooseColors;
     ctx.stroke();
 };
 export const drawPencil = (
     e: MouseEvent,
     pencilPoints: { x: number; y: number }[],
-    canvas: HTMLCanvasElement
+    canvas: HTMLCanvasElement,
+    chooseColors:string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -328,7 +336,7 @@ export const drawPencil = (
         }
     }
 
-    ctx.strokeStyle = shapeColor;
+    ctx.strokeStyle = chooseColors;
     ctx.stroke();
 };
 let newShapesAfterErasing: any = null;
@@ -413,32 +421,32 @@ export const handleMousedown = (e: MouseEvent, canvasRef: any, setStartPoint: an
     setStartPoint({ x: e.clientX - rectangle.left, y: e.clientY - rectangle.top })
 
 }
-export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any, setendPoint: any, pencilPoints: any, setexistingShapes: any, setShape: any) => {
+export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any, setendPoint: any, pencilPoints: any, setexistingShapes: any, setShape: any,chooseColors:any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
     const rectangle = canvas.getBoundingClientRect()
     setendPoint({ x: e.clientX - rectangle.left, y: e.clientY - rectangle.top })
     if (chooseShapes == "Rectangle") {
-        drawRect(e, startPoint, canvas)
+        drawRect(e, startPoint, canvas,chooseColors)
     }
     if (chooseShapes == "Circle") {
-        drawCircle(e, startPoint, canvas)
+        drawCircle(e, startPoint, canvas,chooseColors)
     }
     if (chooseShapes === "Line") {
-        drawLine(e, startPoint, canvas);
+        drawLine(e, startPoint, canvas,chooseColors);
     }
     if (chooseShapes === "Triangle") {
-        drawTriangle(e, startPoint, canvas);
+        drawTriangle(e, startPoint, canvas,chooseColors);
     }
     if (chooseShapes === "Arrow") {
-        drawArrow(e, startPoint, canvas);
+        drawArrow(e, startPoint, canvas,chooseColors);
     }
     if (chooseShapes === "Rhombus") {
-        drawRhombus(e, startPoint, canvas);
+        drawRhombus(e, startPoint, canvas,chooseColors);
     }
     if (chooseShapes === "Pencil" && pencilPoints.length > 0) {
-        drawPencil(e, pencilPoints, canvas);
+        drawPencil(e, pencilPoints, canvas,chooseColors);
     }
     if (chooseShapes === "Eraser") {
         handleEraserClick(e, canvasRef, existingShapes, setexistingShapes, setShape);
@@ -446,7 +454,7 @@ export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, 
     }
     drawPreviousShapes(existingShapes, canvasRef)
 }
-export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any, setShape: any, existingShapes: any) => {
+export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any, setShape: any, existingShapes: any,chooseColors:any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
@@ -456,8 +464,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height }])
-        setShape({ type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height })
+        setexistingShapes((prev: any) => [...prev, { type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
+        setShape({ type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
 
     }
     if (chooseShapes == "Circle") {
@@ -466,8 +474,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Circle", x: startPoint.x, y: startPoint.y, width, height }])
-        setShape({ type: "Circle", x: startPoint.x, y: startPoint.y, width, height })
+        setexistingShapes((prev: any) => [...prev, { type: "Circle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
+        setShape({ type: "Circle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
 
     }
     if (chooseShapes == "Line") {
@@ -476,8 +484,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Line", x: startPoint.x, y: startPoint.y, width, height }])
-        setShape({ type: "Line", x: startPoint.x, y: startPoint.y, width, height })
+        setexistingShapes((prev: any) => [...prev, { type: "Line", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
+        setShape({ type: "Line", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
 
     }
     if (chooseShapes == "Triangle") {
@@ -486,8 +494,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Triangle", x: startPoint.x, y: startPoint.y, width, height }])
-        setShape({ type: "Triangle", x: startPoint.x, y: startPoint.y, width, height })
+        setexistingShapes((prev: any) => [...prev, { type: "Triangle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
+        setShape({ type: "Triangle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
 
     }
     if (chooseShapes == "Arrow") {
@@ -496,8 +504,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Arrow", x: startPoint.x, y: startPoint.y, width, height }])
-        setShape({ type: "Arrow", x: startPoint.x, y: startPoint.y, width, height })
+        setexistingShapes((prev: any) => [...prev, { type: "Arrow", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
+        setShape({ type: "Arrow", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
 
     }
     if (chooseShapes == "Rhombus") {
@@ -506,8 +514,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height }])
-        setShape({ type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height })
+        setexistingShapes((prev: any) => [...prev, { type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
+        setShape({ type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
 
     }
     if (chooseShapes == "Pencil") {
@@ -516,8 +524,8 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints }])
-        setShape({ type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints })
+        setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints,color:chooseColors }])
+        setShape({ type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints,color:chooseColors })
         setPencilPoints([]);
     }
     if (chooseShapes == "Eraser") {
