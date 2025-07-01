@@ -37,6 +37,7 @@ model Shape {
   y         Float
   width     Float
   height    Float
+  color     String?
   pencilPoints Json?  // for points if type = Penci
   // pencilPoints PencilPoint[]  // for points if type = Penci
   room      Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
