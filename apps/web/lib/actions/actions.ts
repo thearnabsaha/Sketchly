@@ -158,7 +158,7 @@ export const drawLine = (
     ctx.beginPath();
     ctx.moveTo(startPoint.x, startPoint.y);
     ctx.lineTo(endX, endY);
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = shapeColor;
     ctx.stroke();
 };
 export const drawCircle = (
@@ -184,7 +184,7 @@ export const drawCircle = (
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.ellipse(centerX, centerY, width / 2, height / 2, 0, 0, 2 * Math.PI);
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = shapeColor;
     ctx.stroke();
 };
 export const drawTriangle = (
@@ -207,7 +207,7 @@ export const drawTriangle = (
     ctx.lineTo(startPoint.x, endY);           // Bottom-left vertex
     ctx.lineTo(endX, endY);                   // Bottom-right vertex
     ctx.closePath();
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = shapeColor;
     ctx.stroke();
 };
 export const drawArrow = (
@@ -246,7 +246,7 @@ export const drawArrow = (
         endY - headLength * Math.sin(angle + Math.PI / 6)
     );
 
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = shapeColor;
     ctx.stroke();
 };
 export const drawRhombus = (
@@ -274,7 +274,7 @@ export const drawRhombus = (
     ctx.lineTo(centerX, startPoint.y + height);        // Bottom vertex
     ctx.lineTo(startPoint.x + width, centerY);         // Right vertex
     ctx.closePath();
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = shapeColor;
     ctx.stroke();
 };
 export const drawPencil = (
@@ -328,7 +328,7 @@ export const drawPencil = (
         }
     }
 
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = shapeColor;
     ctx.stroke();
 };
 let newShapesAfterErasing: any = null;

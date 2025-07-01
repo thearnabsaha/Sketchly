@@ -13,29 +13,29 @@ const Room = () => {
   const [existingShapes, setexistingShapes] = useState<Shape[]>([])
   const [shape, setShape] = useState<Shape>()
   const [pencilPoints, setPencilPoints] = useState<{ x: number; y: number }[]>([]);
-  const [dimensions, setDimensions] = useState({width:0,height:0})
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   useEffect(() => {
-    setDimensions({width:window.innerWidth,height:window.innerHeight})
+    setDimensions({ width: window.innerWidth, height: window.innerHeight })
     const token = localStorage.getItem("token")
     const roomId = localStorage.getItem("roomId")
-    axios.get(`${BACKEND_URL}/shape/${roomId}`,{ headers: { Authorization: token } })
-    .then((e) => {
-      setexistingShapes(e.data.allshapes)
-      drawPreviousShapes(e.data.allshapes, canvasRef)
-    })
-    .catch((e) => console.log(e))
+    axios.get(`${BACKEND_URL}/shape/${roomId}`, { headers: { Authorization: token } })
+      .then((e) => {
+        setexistingShapes(e.data.allshapes)
+        drawPreviousShapes(e.data.allshapes, canvasRef)
+      })
+      .catch((e) => console.log(e))
   }, [])
   useEffect(() => {
     const token = localStorage.getItem("token")
     // console.log(shape)
-    console.log("from page : ",existingShapes)
-    if(chooseShapes!=="Eraser"){
+    console.log("from page : ", existingShapes)
+    if (chooseShapes !== "Eraser") {
       axios.post(`${BACKEND_URL}/shape`,
         {
           type: shape?.type,
           width: shape?.width,
           height: shape?.height,
-          pencilPoints:shape?.points,
+          pencilPoints: shape?.points,
           x: shape?.x,
           y: shape?.y
         },
@@ -43,13 +43,13 @@ const Room = () => {
         .then()
         .catch((e) => console.log(e))
     }
-    if(chooseShapes==="Eraser"){
+    if (chooseShapes === "Eraser") {
       axios.post(`${BACKEND_URL}/shape/delete`,
         {
           type: shape?.type,
           width: shape?.width,
           height: shape?.height,
-          pencilPoints:shape?.points,
+          pencilPoints: shape?.points,
           x: shape?.x,
           y: shape?.y
         },
@@ -57,7 +57,7 @@ const Room = () => {
         .then((e) => console.log(e))
         .catch((e) => console.log(e))
     }
-        // const token = localStorage.getItem("token")
+    // const token = localStorage.getItem("token")
     // const roomId = localStorage.getItem("roomId")
     // axios.get(`${BACKEND_URL}/shape/${roomId}`,{ headers: { Authorization: token } })
     // .then((e) => {
@@ -91,28 +91,36 @@ const Room = () => {
   const chooseEraser = () => {
     setchooseShapes("Eraser")
   }
+  const chooseColor = () => {
+
+  }
   return (
     <div className='flex justify-center relative'>
       <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1">
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseRectangle}><RectangleHorizontal/></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseCircle}><Circle/></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseLine}><Slash/></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseTriangle}><Triangle/></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseArrow}><ArrowRight/></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseRhombus}><Diamond/></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={choosePencil}><Pencil/></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseEraser}><Eraser/></div>
+        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseRectangle}><RectangleHorizontal /></div>
+        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseCircle}><Circle /></div>
+        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseLine}><Slash /></div>
+        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseTriangle}><Triangle /></div>
+        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseArrow}><ArrowRight /></div>
+        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseRhombus}><Diamond /></div>
+        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={choosePencil}><Pencil /></div>
+        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseEraser}><Eraser /></div>
       </div>
-      <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1 left-10 flex-col">
-        <div className='p-3 rounded-md text-background m-1 size-5 bg-background' onClick={chooseRectangle}></div>
-        <div className='p-3 rounded-md text-background m-1 size-5 bg-foreground' onClick={chooseRectangle}></div>
-        <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-1' onClick={chooseRectangle}></div>
-        <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-2' onClick={chooseRectangle}></div>
-        <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-3' onClick={chooseRectangle}></div>
-        <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-4' onClick={chooseRectangle}></div>
-        <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-5' onClick={chooseRectangle}></div>
-        <div className='p-3 rounded-md text-background m-1 size-5 bg-ring' onClick={chooseRectangle}></div>
-        <div className='p-3 rounded-md text-background m-1 size-5 bg-destructive' onClick={chooseRectangle}></div>
+      <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1 left-10 top-50">
+        <div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-3' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-5' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-ring' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-destructive' onClick={chooseRectangle}></div>
+        </div>
+        <div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-background' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-foreground' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-1' onClick={chooseRectangle}></div>
+          <div className='p-3 rounded-md text-background m-1 size-5 bg-chart-2' onClick={chooseRectangle}></div>
+        </div>
+
+
       </div>
       <canvas
         id="myCanvas"
@@ -121,8 +129,8 @@ const Room = () => {
         width={dimensions.width}
         ref={canvasRef}
         onMouseDown={(e) => handleMousedown(e.nativeEvent, canvasRef, setStartPoint, chooseShapes, setPencilPoints)}
-        onMouseMove={(e) => handleMousemove(e.nativeEvent, canvasRef, startPoint, chooseShapes, existingShapes, setendPoint, pencilPoints,setexistingShapes,setShape)}
-        onMouseUp={(e) => handleMouseup(e.nativeEvent, canvasRef, startPoint, setStartPoint, chooseShapes, setexistingShapes, setPencilPoints, pencilPoints,setShape,existingShapes)}>
+        onMouseMove={(e) => handleMousemove(e.nativeEvent, canvasRef, startPoint, chooseShapes, existingShapes, setendPoint, pencilPoints, setexistingShapes, setShape)}
+        onMouseUp={(e) => handleMouseup(e.nativeEvent, canvasRef, startPoint, setStartPoint, chooseShapes, setexistingShapes, setPencilPoints, pencilPoints, setShape, existingShapes)}>
       </canvas>
     </div>
   )
