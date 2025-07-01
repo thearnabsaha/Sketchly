@@ -27,7 +27,7 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
         <Providers>
-          {!(pathname==="/signup"||pathname==="/signin")&&<Navbar/>}
+          {!(pathname==="/signup"||pathname==="/signin"|| pathname.startsWith("/room/"))&&<Navbar/>}
           {children}
           </Providers>
       </body>

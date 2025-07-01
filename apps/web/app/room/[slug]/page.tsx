@@ -12,7 +12,9 @@ const Room = () => {
   const [existingShapes, setexistingShapes] = useState<Shape[]>([])
   const [shape, setShape] = useState<Shape>()
   const [pencilPoints, setPencilPoints] = useState<{ x: number; y: number }[]>([]);
+  const [dimensions, setDimensions] = useState({width:0,height:0})
   useEffect(() => {
+    setDimensions({width:window.innerWidth,height:window.innerHeight})
     const token = localStorage.getItem("token")
     const roomId = localStorage.getItem("roomId")
     axios.get(`${BACKEND_URL}/shape/${roomId}`,{ headers: { Authorization: token } })
@@ -102,9 +104,9 @@ const Room = () => {
       </div>
       <canvas
         id="myCanvas"
-        className='bg-red-100 rounded-lg'
-        height={800}
-        width={1600}
+        className='bg-red-100'
+        height={dimensions.height}
+        width={dimensions.width}
         ref={canvasRef}
         onMouseDown={(e) => handleMousedown(e.nativeEvent, canvasRef, setStartPoint, chooseShapes, setPencilPoints)}
         onMouseMove={(e) => handleMousemove(e.nativeEvent, canvasRef, startPoint, chooseShapes, existingShapes, setendPoint, pencilPoints,setexistingShapes,setShape)}
