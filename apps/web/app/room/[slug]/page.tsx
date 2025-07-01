@@ -15,7 +15,7 @@ const Room = () => {
   const [shape, setShape] = useState<Shape>()
   const [pencilPoints, setPencilPoints] = useState<{ x: number; y: number }[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
-  const [chooseColors, setChooseColors] = useState("black")
+  const [chooseColors, setChooseColors] = useState(darkColor8)
   useEffect(() => {
     setDimensions({ width: window.innerWidth, height: window.innerHeight })
     const token = localStorage.getItem("token")
