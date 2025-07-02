@@ -4,8 +4,9 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "Rhombus" | "Pencil" | "Eraser", x: number, y: number, width: number, height: number, points?: { x: number; y: number }[],color:string }
 import { BACKEND_URL } from "@/lib/config"
-import { ArrowRight, Circle, Diamond, Eraser, LineChart, Pencil, RectangleHorizontal, Slash, Triangle } from 'lucide-react';
+import { ArrowRight, Circle, Diamond, Eraser, LineChart, Pencil, RectangleHorizontal, Redo, Slash, Triangle, Undo } from 'lucide-react';
 import { BlueColor, darkColor7, darkColor8, GoldColor, GreenColor, RedColor, TealColor, VioletColor } from '@/lib/actions/colors';
+import { Button } from '@workspace/ui/components/button';
 const Room = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [startPoint, setStartPoint] = useState<{ x: number, y: number } | null>(null)
@@ -123,27 +124,30 @@ const Room = () => {
   return (
     <div className='flex justify-center relative'>
       <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1">
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseRectangle}><RectangleHorizontal /></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseCircle}><Circle /></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseLine}><Slash /></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseTriangle}><Triangle /></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseArrow}><ArrowRight /></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseRhombus}><Diamond /></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={choosePencil}><Pencil /></div>
-        <div className='p-3 rounded-md bg-foreground text-background m-1' onClick={chooseEraser}><Eraser /></div>
+        <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={chooseRectangle}><RectangleHorizontal /></div>
+        <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={chooseCircle}><Circle /></div>
+        <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={chooseLine}><Slash /></div>
+        <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={chooseTriangle}><Triangle /></div>
+        <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={chooseArrow}><ArrowRight /></div>
+        <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={chooseRhombus}><Diamond /></div>
+        <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={choosePencil}><Pencil /></div>
+        <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={chooseEraser}><Eraser /></div>
       </div>
       <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1 left-10 top-50">
-        <div>
-          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:RedColor}} onClick={chooseColor1}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:BlueColor}} onClick={chooseColor2}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:VioletColor}} onClick={chooseColor3}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:GreenColor}} onClick={chooseColor4}></div>
+        {/* <Button>Clear</Button> */}
+        <div className='my-2'>
+          <Button><Undo/></Button>
+          <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:RedColor}} onClick={chooseColor1}></div>
+          <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:BlueColor}} onClick={chooseColor2}></div>
+          <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:VioletColor}} onClick={chooseColor3}></div>
+          <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:GreenColor}} onClick={chooseColor4}></div>
         </div>
-        <div>
-          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:GoldColor}} onClick={chooseColor5}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:TealColor}} onClick={chooseColor6}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:darkColor7}} onClick={chooseColor7}></div>
-          <div className='p-3 rounded-md text-background m-1 size-5'style={{backgroundColor:darkColor8}} onClick={chooseColor8}></div>
+        <div className='my-2'>
+          <Button><Redo/></Button>
+          <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:GoldColor}} onClick={chooseColor5}></div>
+          <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:TealColor}} onClick={chooseColor6}></div>
+          <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:darkColor7}} onClick={chooseColor7}></div>
+          <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:darkColor8}} onClick={chooseColor8}></div>
         </div>
 
 

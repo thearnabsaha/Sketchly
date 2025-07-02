@@ -8,10 +8,3 @@ export const GoldColor = "oklch(0.70 0.24 70.08)"    /* gold */
 export const GreenColor = "oklch(0.65 0.24 162.48)"   /* neon green */
 export const TealColor = "oklch(0.66 0.25 210)"      /* strong teal-blue */
 export const RedColor = "oklch(0.65 0.25 27)"   /* strong red */
-
-// export const shapeColor = darkColor1
-export let shapeColor = RedColor
-export const getColor = () => {
-
-    return shapeColor;
-}
