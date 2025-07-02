@@ -83,3 +83,22 @@ export const DeleteShape = async (req: Request, res: Response) => {
         res.status(500).json({error})
     }
 }
+export const DeleteRoomShape = async (req: Request, res: Response) => {
+    try {
+        const user=await prisma.user.findFirst({where:{id:req.id}})
+        if(!user){
+            res.status(400).json({message:"User is not Valid!"})
+            return;
+        }
+        const room=await prisma.room.findFirst({where:{slug:req.params.id}})
+        if(!room){
+            res.status(400).json({message:"Room is not Valid!"})
+            return;
+        }
+        const allchats=await prisma.shape.deleteMany({where:{roomId:room.id}})
+        res.status(200).json({allchats})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error})
+    }
+}
