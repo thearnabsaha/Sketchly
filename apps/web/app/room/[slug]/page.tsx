@@ -17,6 +17,7 @@ const Room = () => {
   const [pencilPoints, setPencilPoints] = useState<{ x: number; y: number }[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [chooseColors, setChooseColors] = useState(darkColor8)
+  const [cursorType, setcursorType] = useState("crosshair")
   useEffect(() => {
     setDimensions({ width: window.innerWidth, height: window.innerHeight })
     const token = localStorage.getItem("token")
@@ -73,26 +74,34 @@ const Room = () => {
 
   const chooseRectangle = () => {
     setchooseShapes("Rectangle")
+    setcursorType('crosshair')
   }
   const chooseCircle = () => {
+    setcursorType('crosshair')
     setchooseShapes("Circle")
   }
   const chooseLine = () => {
+    setcursorType('crosshair')
     setchooseShapes("Line")
   }
   const chooseTriangle = () => {
+    setcursorType('crosshair')
     setchooseShapes("Triangle")
   }
   const chooseArrow = () => {
+    setcursorType('crosshair')
     setchooseShapes("Arrow")
   }
   const chooseRhombus = () => {
     setchooseShapes("Rhombus")
+    setcursorType('crosshair')
   }
   const choosePencil = () => {
+    setcursorType('url("/Ipencil.svg"),auto')
     setchooseShapes("Pencil")
   }
   const chooseEraser = () => {
+    setcursorType('url("/Ieraser.svg"),auto')
     setchooseShapes("Eraser")
   }
   console.log(chooseColors)
@@ -133,8 +142,9 @@ const Room = () => {
         <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={choosePencil}><Pencil /></div>
         <div className='p-2 rounded-md bg-foreground text-background m-1' onClick={chooseEraser}><Eraser /></div>
       </div>
-      <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1 left-10 top-50">
-        {/* <Button>Clear</Button> */}
+      <div className=" absolute text-center mt-5 bg-accent rounded-md justify-center p-1 left-10 top-50">
+        <Button className='w-full'>Clear</Button>
+        <div className='flex'>
         <div className='my-2'>
           <Button><Undo/></Button>
           <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:RedColor}} onClick={chooseColor1}></div>
@@ -149,6 +159,7 @@ const Room = () => {
           <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:darkColor7}} onClick={chooseColor7}></div>
           <div className='p-5 rounded-md text-background m-1 size-5'style={{backgroundColor:darkColor8}} onClick={chooseColor8}></div>
         </div>
+        </div>
 
 
       </div>
@@ -158,6 +169,7 @@ const Room = () => {
         height={dimensions.height}
         width={dimensions.width}
         ref={canvasRef}
+        style={{cursor:cursorType}}
         onMouseDown={(e) => handleMousedown(e.nativeEvent, canvasRef, setStartPoint, chooseShapes, setPencilPoints)}
         onMouseMove={(e) => handleMousemove(e.nativeEvent, canvasRef, startPoint, chooseShapes, existingShapes, setendPoint, pencilPoints, setexistingShapes, setShape,chooseColors)}
         onMouseUp={(e) => handleMouseup(e.nativeEvent, canvasRef, startPoint, setStartPoint, chooseShapes, setexistingShapes, setPencilPoints, pencilPoints, setShape, existingShapes,chooseColors)}>

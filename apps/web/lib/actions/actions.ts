@@ -1,5 +1,3 @@
-import { shapeColor } from "./colors";
-
 export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
     existingShapes.forEach((e: any) => {
         const canvas = canvasRef.current;
@@ -139,7 +137,6 @@ export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, ca
     const width = x - startPoint.x
     const height = y - startPoint.y
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    //
     ctx.strokeStyle = chooseColors
     ctx.strokeRect(startPoint.x, startPoint.y, width, height)
 }
@@ -541,3 +538,5 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
     }
     setStartPoint(null)
 }
+
+
