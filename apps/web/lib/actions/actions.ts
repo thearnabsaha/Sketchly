@@ -1,3 +1,6 @@
+import axios from "axios";
+import { BACKEND_URL } from "../config";
+
 export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
     existingShapes.forEach((e: any) => {
         const canvas = canvasRef.current;
@@ -127,7 +130,7 @@ const isPointNearLine = (px: number, py: number, x1: number, y1: number, x2: num
     const dy = py - yy;
     return Math.sqrt(dx * dx + dy * dy) < threshold;
 };
-export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, canvas: HTMLCanvasElement,chooseColors:string) => {
+export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, canvas: HTMLCanvasElement, chooseColors: string) => {
     const rectangle = canvas.getBoundingClientRect()
     const ctx = canvas?.getContext('2d');
     if (!ctx) return;
@@ -144,7 +147,7 @@ export const drawLine = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
     canvas: HTMLCanvasElement,
-    chooseColors:string
+    chooseColors: string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -164,7 +167,7 @@ export const drawCircle = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
     canvas: HTMLCanvasElement,
-    chooseColors:string
+    chooseColors: string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -192,7 +195,7 @@ export const drawTriangle = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
     canvas: HTMLCanvasElement,
-    chooseColors:string
+    chooseColors: string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -216,7 +219,7 @@ export const drawArrow = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
     canvas: HTMLCanvasElement,
-    chooseColors:string
+    chooseColors: string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -256,7 +259,7 @@ export const drawRhombus = (
     e: MouseEvent,
     startPoint: { x: number; y: number },
     canvas: HTMLCanvasElement,
-    chooseColors:string
+    chooseColors: string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -285,7 +288,7 @@ export const drawPencil = (
     e: MouseEvent,
     pencilPoints: { x: number; y: number }[],
     canvas: HTMLCanvasElement,
-    chooseColors:string
+    chooseColors: string
 ) => {
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
@@ -418,32 +421,32 @@ export const handleMousedown = (e: MouseEvent, canvasRef: any, setStartPoint: an
     setStartPoint({ x: e.clientX - rectangle.left, y: e.clientY - rectangle.top })
 
 }
-export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any, setendPoint: any, pencilPoints: any, setexistingShapes: any, setShape: any,chooseColors:any) => {
+export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any, setendPoint: any, pencilPoints: any, setexistingShapes: any, setShape: any, chooseColors: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
     const rectangle = canvas.getBoundingClientRect()
     setendPoint({ x: e.clientX - rectangle.left, y: e.clientY - rectangle.top })
     if (chooseShapes == "Rectangle") {
-        drawRect(e, startPoint, canvas,chooseColors)
+        drawRect(e, startPoint, canvas, chooseColors)
     }
     if (chooseShapes == "Circle") {
-        drawCircle(e, startPoint, canvas,chooseColors)
+        drawCircle(e, startPoint, canvas, chooseColors)
     }
     if (chooseShapes === "Line") {
-        drawLine(e, startPoint, canvas,chooseColors);
+        drawLine(e, startPoint, canvas, chooseColors);
     }
     if (chooseShapes === "Triangle") {
-        drawTriangle(e, startPoint, canvas,chooseColors);
+        drawTriangle(e, startPoint, canvas, chooseColors);
     }
     if (chooseShapes === "Arrow") {
-        drawArrow(e, startPoint, canvas,chooseColors);
+        drawArrow(e, startPoint, canvas, chooseColors);
     }
     if (chooseShapes === "Rhombus") {
-        drawRhombus(e, startPoint, canvas,chooseColors);
+        drawRhombus(e, startPoint, canvas, chooseColors);
     }
     if (chooseShapes === "Pencil" && pencilPoints.length > 0) {
-        drawPencil(e, pencilPoints, canvas,chooseColors);
+        drawPencil(e, pencilPoints, canvas, chooseColors);
     }
     if (chooseShapes === "Eraser") {
         handleEraserClick(e, canvasRef, existingShapes, setexistingShapes, setShape);
@@ -451,7 +454,7 @@ export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, 
     }
     drawPreviousShapes(existingShapes, canvasRef)
 }
-export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any, setShape: any, existingShapes: any,chooseColors:any) => {
+export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, setStartPoint: any, chooseShapes: any, setexistingShapes: any, setPencilPoints: any, pencilPoints: any, setShape: any, existingShapes: any, chooseColors: any) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
@@ -461,9 +464,21 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
-        setShape({ type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
-
+        setexistingShapes((prev: any) => [...prev, { type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors }])
+        setShape({ type: "Rectangle", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors })
+        const token = localStorage.getItem("token")
+        axios.post(`${BACKEND_URL}/shape`,
+            {
+                type: "Rectangle",
+                width: width,
+                height: height,
+                color: chooseColors,
+                x: startPoint.x,
+                y: startPoint.y
+            },
+            { headers: { Authorization: token } })
+            .then((e) => console.log(e))
+            .catch((e) => console.log(e))
     }
     if (chooseShapes == "Circle") {
         const rectangle = canvas.getBoundingClientRect()
@@ -471,9 +486,21 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Circle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
-        setShape({ type: "Circle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
-
+        setexistingShapes((prev: any) => [...prev, { type: "Circle", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors }])
+        setShape({ type: "Circle", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors })
+        const token = localStorage.getItem("token")
+        axios.post(`${BACKEND_URL}/shape`,
+            {
+                type: "Circle",
+                width: width,
+                height: height,
+                color: chooseColors,
+                x: startPoint.x,
+                y: startPoint.y
+            },
+            { headers: { Authorization: token } })
+            .then((e) => console.log(e))
+            .catch((e) => console.log(e))
     }
     if (chooseShapes == "Line") {
         const rectangle = canvas.getBoundingClientRect()
@@ -481,9 +508,21 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Line", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
-        setShape({ type: "Line", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
-
+        setexistingShapes((prev: any) => [...prev, { type: "Line", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors }])
+        setShape({ type: "Line", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors })
+        const token = localStorage.getItem("token")
+        axios.post(`${BACKEND_URL}/shape`,
+            {
+                type: "Line",
+                width: width,
+                height: height,
+                color: chooseColors,
+                x: startPoint.x,
+                y: startPoint.y
+            },
+            { headers: { Authorization: token } })
+            .then((e) => console.log(e))
+            .catch((e) => console.log(e))
     }
     if (chooseShapes == "Triangle") {
         const rectangle = canvas.getBoundingClientRect()
@@ -491,9 +530,21 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Triangle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
-        setShape({ type: "Triangle", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
-
+        setexistingShapes((prev: any) => [...prev, { type: "Triangle", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors }])
+        setShape({ type: "Triangle", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors })
+        const token = localStorage.getItem("token")
+        axios.post(`${BACKEND_URL}/shape`,
+            {
+                type: "Triangle",
+                width: width,
+                height: height,
+                color: chooseColors,
+                x: startPoint.x,
+                y: startPoint.y
+            },
+            { headers: { Authorization: token } })
+            .then((e) => console.log(e))
+            .catch((e) => console.log(e))
     }
     if (chooseShapes == "Arrow") {
         const rectangle = canvas.getBoundingClientRect()
@@ -501,9 +552,21 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Arrow", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
-        setShape({ type: "Arrow", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
-
+        setexistingShapes((prev: any) => [...prev, { type: "Arrow", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors }])
+        setShape({ type: "Arrow", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors })
+        const token = localStorage.getItem("token")
+        axios.post(`${BACKEND_URL}/shape`,
+            {
+                type: "Arrow",
+                width: width,
+                height: height,
+                color: chooseColors,
+                x: startPoint.x,
+                y: startPoint.y
+            },
+            { headers: { Authorization: token } })
+            .then((e) => console.log(e))
+            .catch((e) => console.log(e))
     }
     if (chooseShapes == "Rhombus") {
         const rectangle = canvas.getBoundingClientRect()
@@ -511,9 +574,21 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors }])
-        setShape({ type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height,color:chooseColors })
-
+        setexistingShapes((prev: any) => [...prev, { type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors }])
+        setShape({ type: "Rhombus", x: startPoint.x, y: startPoint.y, width, height, color: chooseColors })
+        const token = localStorage.getItem("token")
+        axios.post(`${BACKEND_URL}/shape`,
+            {
+                type: "Rhombus",
+                width: width,
+                height: height,
+                color: chooseColors,
+                x: startPoint.x,
+                y: startPoint.y
+            },
+            { headers: { Authorization: token } })
+            .then((e) => console.log(e))
+            .catch((e) => console.log(e))
     }
     if (chooseShapes == "Pencil") {
         const rectangle = canvas.getBoundingClientRect()
@@ -521,9 +596,23 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints,color:chooseColors }])
-        setShape({ type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints,color:chooseColors })
+        setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints, color: chooseColors }])
+        setShape({ type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints, color: chooseColors })
         setPencilPoints([]);
+        const token = localStorage.getItem("token")
+        axios.post(`${BACKEND_URL}/shape`,
+            {
+                type: "Pencil",
+                width: width,
+                height: height,
+                color: chooseColors,
+                pencilPoints: pencilPoints,
+                x: startPoint.x,
+                y: startPoint.y
+            },
+            { headers: { Authorization: token } })
+            .then((e) => console.log(e))
+            .catch((e) => console.log(e))
     }
     if (chooseShapes == "Eraser") {
         const rectangle = canvas.getBoundingClientRect()
@@ -534,6 +623,19 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         console.log("hi", newShapesAfterErasing)
         setexistingShapes(newShapesAfterErasing)
         // drawPreviousShapes(existingShapes, canvasRef)
+        const token = localStorage.getItem("token")
+        axios.post(`${BACKEND_URL}/shape`,
+            {
+                type: "Circle",
+                width: width,
+                height: height,
+                color: chooseColors,
+                x: startPoint.x,
+                y: startPoint.y
+            },
+            { headers: { Authorization: token } })
+            .then((e) => console.log(e))
+            .catch((e) => console.log(e))
 
     }
     setStartPoint(null)

@@ -38,35 +38,35 @@ const Room = () => {
       setComponentMounted(true)
       return;
     }
-    if (chooseShapes !== "Eraser") {
-      axios.post(`${BACKEND_URL}/shape`,
-        {
-          type: shape?.type,
-          width: shape?.width,
-          height: shape?.height,
-          color: shape?.color,
-          pencilPoints: shape?.points,
-          x: shape?.x,
-          y: shape?.y
-        },
-        { headers: { Authorization: token } })
-        .then()
-        .catch((e) => console.log(e))
-    }
-    if (chooseShapes === "Eraser") {
-      axios.post(`${BACKEND_URL}/shape/delete`,
-        {
-          type: shape?.type,
-          width: shape?.width,
-          height: shape?.height,
-          pencilPoints: shape?.points,
-          x: shape?.x,
-          y: shape?.y
-        },
-        { headers: { Authorization: token } })
-        .then((e) => console.log(e))
-        .catch((e) => console.log(e))
-    }
+    // if (chooseShapes !== "Eraser") {
+    //   axios.post(`${BACKEND_URL}/shape`,
+    //     {
+    //       type: shape?.type,
+    //       width: shape?.width,
+    //       height: shape?.height,
+    //       color: shape?.color,
+    //       pencilPoints: shape?.points,
+    //       x: shape?.x,
+    //       y: shape?.y
+    //     },
+    //     { headers: { Authorization: token } })
+    //     .then()
+    //     .catch((e) => console.log(e))
+    // }
+    // if (chooseShapes === "Eraser") {
+    //   axios.post(`${BACKEND_URL}/shape/delete`,
+    //     {
+    //       type: shape?.type,
+    //       width: shape?.width,
+    //       height: shape?.height,
+    //       pencilPoints: shape?.points,
+    //       x: shape?.x,
+    //       y: shape?.y
+    //     },
+    //     { headers: { Authorization: token } })
+    //     .then((e) => console.log(e))
+    //     .catch((e) => console.log(e))
+    // }
 
   }, [existingShapes])
   const clearCanvas = () => {
