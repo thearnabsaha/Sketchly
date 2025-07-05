@@ -46,7 +46,7 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
             const endX = e.x + e.width;
             const endY = e.y + e.height;
 
-            const headLength = 30;
+            const headLength = 20;
             const dx = endX - e.x;
             const dy = endY - e.y;
             const angle = Math.atan2(dy, dx);
@@ -234,7 +234,7 @@ export const drawArrow = (
     const endX = e.clientX - rect.left;
     const endY = e.clientY - rect.top;
 
-    const headLength = 30; // length of the arrow head
+    const headLength = 20; // length of the arrow head
     const dx = endX - startPoint.x;
     const dy = endY - startPoint.y;
     const angle = Math.atan2(dy, dx);

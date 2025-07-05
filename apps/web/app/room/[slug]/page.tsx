@@ -2,10 +2,10 @@
 import { drawPreviousShapes, handleMousedown, handleMousemove, handleMouseup } from '@/lib/actions/actions';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
-type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "Rhombus" | "Pencil" | "Eraser", x: number, y: number, width: number, height: number, points?: { x: number; y: number }[], color: string }
+type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "Rhombus" | "Pencil" | "Eraser" | "Text", x: number, y: number, width: number, height: number, points?: { x: number; y: number }[], color: string }
 import { BACKEND_URL } from "@/lib/config"
-import { ArrowRight, Circle, Diamond, Eraser, Pencil, RectangleHorizontal, Redo, Slash, Triangle, Undo } from 'lucide-react';
-import { BlueColor, darkColor7, darkColor8, GoldColor, GreenColor, RedColor, TealColor, VioletColor } from '@/lib/actions/colors';
+import { ArrowRight, Circle, Diamond, Eraser, Heading, Pencil, RectangleHorizontal, Redo, Slash, Triangle, Undo } from 'lucide-react';
+import { BlueColor, GreyColor, PeachColor, GoldColor, GreenColor, RedColor, TealColor, VioletColor } from '@/lib/actions/colors';
 import { Button } from '@workspace/ui/components/button';
 const Room = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -16,7 +16,7 @@ const Room = () => {
   const [shape, setShape] = useState<Shape>()
   const [pencilPoints, setPencilPoints] = useState<{ x: number; y: number }[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
-  const [chooseColors, setChooseColors] = useState(darkColor8)
+  const [chooseColors, setChooseColors] = useState(PeachColor)
   const [cursorType, setcursorType] = useState("crosshair")
   const [undoStack, setUndoStack] = useState<Shape[][]>([]);
   const [redoStack, setRedoStack] = useState<Shape[][]>([]);
@@ -72,6 +72,10 @@ const Room = () => {
     setchooseShapes("Rhombus")
     setcursorType('crosshair')
   }
+  const chooseText = () => {
+    setchooseShapes("Text")
+    setcursorType('text')
+  }
   const choosePencil = () => {
     setcursorType('crosshair')
     setchooseShapes("Pencil")
@@ -99,10 +103,10 @@ const Room = () => {
     setChooseColors(RedColor)
   }
   const chooseColor7 = () => {
-    setChooseColors(darkColor7)
+    setChooseColors(GreyColor)
   }
   const chooseColor8 = () => {
-    setChooseColors(darkColor8)
+    setChooseColors(PeachColor)
   }
   const handleUndo = () => {
   //   if (undoStack.length === 0) return;
@@ -129,6 +133,7 @@ const Room = () => {
         <Button className={`p-2 rounded-md ${chooseShapes=="Triangle"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseTriangle}><Triangle /></Button>
         <Button className={`p-2 rounded-md ${chooseShapes=="Arrow"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseArrow}><ArrowRight /></Button>
         <Button className={`p-2 rounded-md ${chooseShapes=="Rhombus"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseRhombus}><Diamond /></Button>
+        <Button className={`p-2 rounded-md ${chooseShapes=="Text"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseText}><Heading /></Button>
         <Button className={`p-2 rounded-md ${chooseShapes=="Pencil"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={choosePencil}><Pencil /></Button>
         <Button className={`p-2 rounded-md ${chooseShapes=="Eraser"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseEraser}><Eraser /></Button>
       </div>
@@ -146,8 +151,8 @@ const Room = () => {
             <Button onClick={handleRedo}><Redo /></Button>
             <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==GoldColor?"border-white":""}`} style={{ backgroundColor: GoldColor }} onClick={chooseColor5}></div>
             <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==TealColor?"border-white":""}`} style={{ backgroundColor: TealColor }} onClick={chooseColor6}></div>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==darkColor7?"border-white":""}`} style={{ backgroundColor: darkColor7 }} onClick={chooseColor7}></div>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==darkColor8?"border-white":""}`} style={{ backgroundColor: darkColor8 }} onClick={chooseColor8}></div>
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==GreyColor?"border-white":""}`} style={{ backgroundColor: GreyColor }} onClick={chooseColor7}></div>
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==PeachColor?"border-white":""}`} style={{ backgroundColor: PeachColor }} onClick={chooseColor8}></div>
           </div>
         </div>
       </div>
