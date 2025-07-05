@@ -5,6 +5,8 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
     existingShapes.forEach((e: any) => {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
+        ctx.lineWidth = 2
+
         if (!canvas || !ctx) return;
         ctx.strokeStyle = e.color
         if (e.type == "Rectangle") {
@@ -44,7 +46,7 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
             const endX = e.x + e.width;
             const endY = e.y + e.height;
 
-            const headLength = 10;
+            const headLength = 30;
             const dx = endX - e.x;
             const dy = endY - e.y;
             const angle = Math.atan2(dy, dx);
@@ -58,13 +60,13 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
             // Arrow head
             ctx.moveTo(endX, endY);
             ctx.lineTo(
-                endX - headLength * Math.cos(angle - Math.PI / 6),
-                endY - headLength * Math.sin(angle - Math.PI / 6)
+                endX - headLength * Math.cos(angle - Math.PI / 10),
+                endY - headLength * Math.sin(angle - Math.PI / 10)
             );
             ctx.moveTo(endX, endY);
             ctx.lineTo(
-                endX - headLength * Math.cos(angle + Math.PI / 6),
-                endY - headLength * Math.sin(angle + Math.PI / 6)
+                endX - headLength * Math.cos(angle + Math.PI / 10),
+                endY - headLength * Math.sin(angle + Math.PI / 10)
             );
 
             ctx.stroke();
@@ -134,7 +136,7 @@ export const drawRect = (e: MouseEvent, startPoint: { x: number; y: number }, ca
     const rectangle = canvas.getBoundingClientRect()
     const ctx = canvas?.getContext('2d');
     if (!ctx) return;
-
+    ctx.lineWidth = 2
     const x = e.clientX - rectangle.left
     const y = e.clientY - rectangle.top
     const width = x - startPoint.x
@@ -152,6 +154,7 @@ export const drawLine = (
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    ctx.lineWidth = 2
 
     const endX = e.clientX - rect.left;
     const endY = e.clientY - rect.top;
@@ -172,6 +175,7 @@ export const drawCircle = (
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    ctx.lineWidth = 2
 
     const endX = e.clientX - rect.left;
     const endY = e.clientY - rect.top;
@@ -200,6 +204,7 @@ export const drawTriangle = (
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    ctx.lineWidth = 2
 
     const endX = e.clientX - rect.left;
     const endY = e.clientY - rect.top;
@@ -224,11 +229,12 @@ export const drawArrow = (
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    ctx.lineWidth = 2
 
     const endX = e.clientX - rect.left;
     const endY = e.clientY - rect.top;
 
-    const headLength = 10; // length of the arrow head
+    const headLength = 30; // length of the arrow head
     const dx = endX - startPoint.x;
     const dy = endY - startPoint.y;
     const angle = Math.atan2(dy, dx);
@@ -243,13 +249,13 @@ export const drawArrow = (
     // Arrow head
     ctx.moveTo(endX, endY);
     ctx.lineTo(
-        endX - headLength * Math.cos(angle - Math.PI / 6),
-        endY - headLength * Math.sin(angle - Math.PI / 6)
+        endX - headLength * Math.cos(angle - Math.PI / 10),
+        endY - headLength * Math.sin(angle - Math.PI / 10)
     );
     ctx.moveTo(endX, endY);
     ctx.lineTo(
-        endX - headLength * Math.cos(angle + Math.PI / 6),
-        endY - headLength * Math.sin(angle + Math.PI / 6)
+        endX - headLength * Math.cos(angle + Math.PI / 10),
+        endY - headLength * Math.sin(angle + Math.PI / 10)
     );
 
     ctx.strokeStyle = chooseColors;
@@ -264,6 +270,7 @@ export const drawRhombus = (
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    ctx.lineWidth = 2
 
     const endX = e.clientX - rect.left;
     const endY = e.clientY - rect.top;
@@ -294,6 +301,7 @@ export const drawPencil = (
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     if (!pencilPoints) return;
+    ctx.lineWidth = 2
 
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -419,7 +427,6 @@ export const handleMousedown = (e: MouseEvent, canvasRef: any, setStartPoint: an
     }
     const rectangle = canvas.getBoundingClientRect()
     setStartPoint({ x: e.clientX - rectangle.left, y: e.clientY - rectangle.top })
-
 }
 export const handleMousemove = (e: MouseEvent, canvasRef: any, startPoint: any, chooseShapes: any, existingShapes: any, setendPoint: any, pencilPoints: any, setexistingShapes: any, setShape: any, chooseColors: any) => {
     const canvas = canvasRef.current;
@@ -458,6 +465,7 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!startPoint) return;
+    const roomId = localStorage.getItem("roomId")
     if (chooseShapes == "Rectangle") {
         const rectangle = canvas.getBoundingClientRect()
         const x = e.clientX - rectangle.left
@@ -470,6 +478,7 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         axios.post(`${BACKEND_URL}/shape`,
             {
                 type: "Rectangle",
+                slug:roomId,
                 width: width,
                 height: height,
                 color: chooseColors,
@@ -493,6 +502,7 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
             {
                 type: "Circle",
                 width: width,
+                slug:roomId,
                 height: height,
                 color: chooseColors,
                 x: startPoint.x,
@@ -514,6 +524,7 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         axios.post(`${BACKEND_URL}/shape`,
             {
                 type: "Line",
+                slug:roomId,
                 width: width,
                 height: height,
                 color: chooseColors,
@@ -536,6 +547,7 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         axios.post(`${BACKEND_URL}/shape`,
             {
                 type: "Triangle",
+                slug:roomId,
                 width: width,
                 height: height,
                 color: chooseColors,
@@ -558,6 +570,7 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         axios.post(`${BACKEND_URL}/shape`,
             {
                 type: "Arrow",
+                slug:roomId,
                 width: width,
                 height: height,
                 color: chooseColors,
@@ -581,6 +594,7 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
             {
                 type: "Rhombus",
                 width: width,
+                slug:roomId,
                 height: height,
                 color: chooseColors,
                 x: startPoint.x,
@@ -604,6 +618,7 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
             {
                 type: "Pencil",
                 width: width,
+                slug:roomId,
                 height: height,
                 color: chooseColors,
                 pencilPoints: pencilPoints,
@@ -628,6 +643,7 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
             {
                 type: "Circle",
                 width: width,
+                slug:roomId,
                 height: height,
                 color: chooseColors,
                 x: startPoint.x,

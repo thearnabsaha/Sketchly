@@ -34,7 +34,7 @@ const Room = () => {
     const token = localStorage.getItem("token")
     console.log(shape)
     console.log("from page : ", existingShapes)
-    if(!componentMounted){
+    if (!componentMounted) {
       setComponentMounted(true)
       return;
     }
@@ -76,6 +76,11 @@ const Room = () => {
       { headers: { Authorization: token } })
       .then((e) => {
         console.log(e)
+        const canvas = canvasRef.current;
+        if(!canvas)return;
+        const ctx = canvas.getContext('2d');
+        if(!ctx)return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         setexistingShapes([])
       })
       .catch((e) => console.log(e))
@@ -105,7 +110,8 @@ const Room = () => {
     setcursorType('crosshair')
   }
   const choosePencil = () => {
-    setcursorType('url("/Ipencil.svg"),auto')
+    // setcursorType('url("/Ipencil.svg"),auto')
+    setcursorType('crosshair')
     setchooseShapes("Pencil")
   }
   const chooseEraser = () => {
@@ -167,8 +173,6 @@ const Room = () => {
             <div className='p-5 rounded-md text-background m-1 size-5' style={{ backgroundColor: darkColor8 }} onClick={chooseColor8}></div>
           </div>
         </div>
-
-
       </div>
       <canvas
         id="myCanvas"
