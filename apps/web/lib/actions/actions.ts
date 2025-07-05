@@ -101,7 +101,7 @@ export const drawPreviousShapes = (existingShapes: any, canvasRef: any) => {
             if (last) {
                 ctx.lineTo(last.x, last.y);
             }
-
+            console.log("from inside the pencil")
             ctx.stroke();
         }
     })
@@ -610,8 +610,9 @@ export const handleMouseup = (e: MouseEvent, canvasRef: any, startPoint: any, se
         const y = e.clientY - rectangle.top
         const width = x - startPoint.x
         const height = y - startPoint.y
-        setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints, color: chooseColors }])
-        setShape({ type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, points: pencilPoints, color: chooseColors })
+        setexistingShapes((prev: any) => [...prev, { type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, pencilPoints: pencilPoints, color: chooseColors }])
+
+        setShape({ type: "Pencil", x: startPoint.x, y: startPoint.y, width, height, pencilPoints: pencilPoints, color: chooseColors })
         setPencilPoints([]);
         const token = localStorage.getItem("token")
         axios.post(`${BACKEND_URL}/shape`,
