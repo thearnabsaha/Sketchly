@@ -81,7 +81,7 @@ const Room = () => {
     setchooseShapes("Pencil")
   }
   const chooseEraser = () => {
-    setcursorType('url("/Ieraser.svg"),auto')
+    setcursorType('url("/eraser.svg"),auto')
     setchooseShapes("Eraser")
   }
   const chooseColor2 = () => {

@@ -1,4 +1,3 @@
-
 export const GreyColor = "oklch(0.708 0 0)"  
 export const PeachColor = "oklch(0.80 0.14 27)"  
 
