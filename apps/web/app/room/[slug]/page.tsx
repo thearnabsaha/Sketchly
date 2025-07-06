@@ -6,6 +6,11 @@ type Shape = { type: "Rectangle" | "Circle" | "Line" | "Triangle" | "Arrow" | "R
 import { BACKEND_URL } from "@/lib/config"
 import { ArrowRight, Circle, Diamond, Eraser, Heading, Pencil, RectangleHorizontal, Redo, Slash, Triangle, Undo } from 'lucide-react';
 import { BlueColor, GreyColor, PeachColor, GoldColor, GreenColor, RedColor, TealColor, VioletColor } from '@/lib/actions/colors';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@workspace/ui/components/tooltip"
 import { Button } from '@workspace/ui/components/button';
 const Room = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -109,50 +114,115 @@ const Room = () => {
     setChooseColors(PeachColor)
   }
   const handleUndo = () => {
-  //   if (undoStack.length === 0) return;
-  //   const lastState = undoStack[undoStack.length - 1];
-  //   setUndoStack(prev => prev.slice(0, prev.length - 1));
-  //   setRedoStack(prev => [...prev, existingShapes]);
-  //   setexistingShapes(lastState ?? []);
-  //   drawPreviousShapes(lastState ?? [], canvasRef);
+    //   if (undoStack.length === 0) return;
+    //   const lastState = undoStack[undoStack.length - 1];
+    //   setUndoStack(prev => prev.slice(0, prev.length - 1));
+    //   setRedoStack(prev => [...prev, existingShapes]);
+    //   setexistingShapes(lastState ?? []);
+    //   drawPreviousShapes(lastState ?? [], canvasRef);
   }
   const handleRedo = () => {
-  //   if (redoStack.length === 0) return;
-  //   const nextState = redoStack[redoStack.length - 1];
-  //   setRedoStack(prev => prev.slice(0, prev.length - 1));
-  //   setUndoStack(prev => [...prev, existingShapes]);
-  //   setexistingShapes(nextState ?? []);
-  //   drawPreviousShapes(nextState, canvasRef);
+    //   if (redoStack.length === 0) return;
+    //   const nextState = redoStack[redoStack.length - 1];
+    //   setRedoStack(prev => prev.slice(0, prev.length - 1));
+    //   setUndoStack(prev => [...prev, existingShapes]);
+    //   setexistingShapes(nextState ?? []);
+    //   drawPreviousShapes(nextState, canvasRef);
   }
   return (
     <div className='flex justify-center relative'>
       <div className=" absolute text-center flex mt-5 bg-accent rounded-md justify-center p-1">
-        <Button className={`p-2 rounded-md text-background m-1 ${chooseShapes=="Rectangle"?"bg-foreground opacity-70":"bg-foreground"}`} onClick={chooseRectangle}><RectangleHorizontal /></Button>
-        <Button className={`p-2 rounded-md ${chooseShapes=="Circle"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseCircle}><Circle /></Button>
-        <Button className={`p-2 rounded-md ${chooseShapes=="Line"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseLine}><Slash /></Button>
-        <Button className={`p-2 rounded-md ${chooseShapes=="Triangle"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseTriangle}><Triangle /></Button>
-        <Button className={`p-2 rounded-md ${chooseShapes=="Arrow"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseArrow}><ArrowRight /></Button>
-        <Button className={`p-2 rounded-md ${chooseShapes=="Rhombus"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseRhombus}><Diamond /></Button>
-        <Button className={`p-2 rounded-md ${chooseShapes=="Text"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseText}><Heading /></Button>
-        <Button className={`p-2 rounded-md ${chooseShapes=="Pencil"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={choosePencil}><Pencil /></Button>
-        <Button className={`p-2 rounded-md ${chooseShapes=="Eraser"?"bg-foreground opacity-70":"bg-foreground"} text-background m-1`} onClick={chooseEraser}><Eraser /></Button>
+        <Tooltip>
+          <TooltipTrigger className={`p-2 rounded-md text-background m-1 ${chooseShapes == "Rectangle" ? "bg-foreground opacity-70" : "bg-foreground cursor-pointer"}`} onClick={chooseRectangle}><RectangleHorizontal /></TooltipTrigger>
+          <TooltipContent className='cursor-pointer'>
+            <p>Rectangle</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger className={`p-2 rounded-md text-background m-1 ${chooseShapes == "Circle" ? "bg-foreground opacity-70" : "bg-foreground cursor-pointer"}`} onClick={chooseCircle}><Circle /></TooltipTrigger>
+          <TooltipContent className='cursor-pointer'>
+            <p>Circle</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger className={`p-2 rounded-md text-background m-1 ${chooseShapes == "Line" ? "bg-foreground opacity-70" : "bg-foreground cursor-pointer"}`} onClick={chooseLine}><Slash /></TooltipTrigger>
+          <TooltipContent className='cursor-pointer'>
+            <p>Line</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger className={`p-2 rounded-md text-background m-1 ${chooseShapes == "Triangle" ? "bg-foreground opacity-70" : "bg-foreground cursor-pointer"}`} onClick={chooseTriangle}><Triangle className='' /></TooltipTrigger>
+          <TooltipContent className='cursor-pointer'>
+            <p>Triangle</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger className={`p-2 rounded-md text-background m-1 ${chooseShapes == "Arrow" ? "bg-foreground opacity-70" : "bg-foreground cursor-pointer"}`} onClick={chooseArrow}><ArrowRight /></TooltipTrigger>
+          <TooltipContent className='cursor-pointer'>
+            <p>Arrow</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger className={`p-2 rounded-md text-background m-1 ${chooseShapes == "Rhombus" ? "bg-foreground opacity-70" : "bg-foreground cursor-pointer"}`} onClick={chooseRhombus}><Diamond /></TooltipTrigger>
+          <TooltipContent className='cursor-pointer'>
+            <p>Diamond</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger className={`p-2 rounded-md text-background m-1 ${chooseShapes == "Text" ? "bg-foreground opacity-70" : "bg-foreground cursor-pointer"}`} onClick={chooseText}><Heading /></TooltipTrigger>
+          <TooltipContent className='cursor-pointer'>
+            <p>Text</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger className={`p-2 rounded-md text-background m-1 ${chooseShapes == "Pencil" ? "bg-foreground opacity-70" : "bg-foreground cursor-pointer"}`} onClick={choosePencil}><Pencil /></TooltipTrigger>
+          <TooltipContent className='cursor-pointer'>
+            <p>Pencil</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger className={`p-2 rounded-md text-background m-1 ${chooseShapes == "Eraser" ? "bg-foreground opacity-70" : "bg-foreground cursor-pointer"}`} onClick={chooseEraser}><Eraser /></TooltipTrigger>
+          <TooltipContent className='cursor-pointer'>
+            <p>Eraser</p>
+          </TooltipContent>
+        </Tooltip>
+        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Circle" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseCircle}><Circle /></Button> */}
+        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Line" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseLine}><Slash /></Button> */}
+        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Triangle" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseTriangle}><Triangle /></Button> */}
+        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Arrow" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseArrow}><ArrowRight /></Button> */}
+        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Rhombus" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseRhombus}><Diamond /></Button> */}
+        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Text" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseText}><Heading /></Button> */}
+        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Pencil" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={choosePencil}><Pencil /></Button> */}
+        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Eraser" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseEraser}><Eraser /></Button> */}
       </div>
       <div className=" absolute text-center mt-5 bg-accent rounded-md justify-center p-1 left-10 top-50">
         <Button className='w-full' onClick={clearCanvas}>Clear</Button>
         <div className='flex'>
           <div className='my-2'>
-            <Button onClick={handleUndo}><Undo /></Button>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==RedColor?"border-white":""}`} style={{ backgroundColor: RedColor }} onClick={chooseColor1}></div>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==BlueColor?"border-white":""}`} style={{ backgroundColor: BlueColor }} onClick={chooseColor2}></div>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==VioletColor?"border-white":""}`} style={{ backgroundColor: VioletColor }} onClick={chooseColor3}></div>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==GreenColor?"border-white":""}`} style={{ backgroundColor: GreenColor }} onClick={chooseColor4}></div>
+            <Tooltip>
+              <TooltipTrigger onClick={handleUndo} className='cursor-pointer text-background bg-foreground p-2 rounded-md hover:opacity-90'><Undo /></TooltipTrigger>
+              <TooltipContent>
+                <p>Undo</p>
+              </TooltipContent>
+            </Tooltip>
+            {/* <Button onClick={handleUndo}><Undo /></Button> */}
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == RedColor ? "border-white" : ""}`} style={{ backgroundColor: RedColor }} onClick={chooseColor1}></div>
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == BlueColor ? "border-white" : ""}`} style={{ backgroundColor: BlueColor }} onClick={chooseColor2}></div>
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == VioletColor ? "border-white" : ""}`} style={{ backgroundColor: VioletColor }} onClick={chooseColor3}></div>
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == GreenColor ? "border-white" : ""}`} style={{ backgroundColor: GreenColor }} onClick={chooseColor4}></div>
           </div>
           <div className='my-2'>
-            <Button onClick={handleRedo}><Redo /></Button>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==GoldColor?"border-white":""}`} style={{ backgroundColor: GoldColor }} onClick={chooseColor5}></div>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==TealColor?"border-white":""}`} style={{ backgroundColor: TealColor }} onClick={chooseColor6}></div>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==GreyColor?"border-white":""}`} style={{ backgroundColor: GreyColor }} onClick={chooseColor7}></div>
-            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors==PeachColor?"border-white":""}`} style={{ backgroundColor: PeachColor }} onClick={chooseColor8}></div>
+            <Tooltip>
+              <TooltipTrigger onClick={handleRedo} className=' text-background bg-foreground p-2 rounded-md cursor-pointer hover:opacity-90'><Redo /></TooltipTrigger>
+              <TooltipContent>
+                <p>Redo</p>
+              </TooltipContent>
+            </Tooltip>
+            {/* <Button onClick={handleRedo}><Redo /></Button> */}
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == GoldColor ? "border-white" : ""}`} style={{ backgroundColor: GoldColor }} onClick={chooseColor5}></div>
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == TealColor ? "border-white" : ""}`} style={{ backgroundColor: TealColor }} onClick={chooseColor6}></div>
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == GreyColor ? "border-white" : ""}`} style={{ backgroundColor: GreyColor }} onClick={chooseColor7}></div>
+            <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == PeachColor ? "border-white" : ""}`} style={{ backgroundColor: PeachColor }} onClick={chooseColor8}></div>
           </div>
         </div>
       </div>

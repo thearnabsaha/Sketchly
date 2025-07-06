@@ -13,6 +13,11 @@ import { LogOutIcon, Moon, Sun, User } from "lucide-react"
 interface NavbarProps {
     isSidebar: boolean;
 }
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@workspace/ui/components/tooltip"
 const Navbar = ({ isSidebar }: NavbarProps) => {
     const router = useRouter()
     const { setUser } = useUserStore()
@@ -61,12 +66,33 @@ const Navbar = ({ isSidebar }: NavbarProps) => {
             </DropdownMenu>
             {isSidebar ? <div className="bg-accent inline-block px-5 py-2 rounded-lg absolute z-30 right-5 top-5">
                 <ul className="flex items-center">
-                    <Link className="pr-5 cursor-pointer hover:underline" href={"/dashboard"}><User/></Link>
-                    <li className="pr-5 hover:underline cursor-pointer" onClick={logoutHandler}><LogOutIcon/></li>
+                    <Tooltip>
+                        <TooltipTrigger><Link className=" cursor-pointer hover:underline flex" href={"/dashboard"}><User /></Link></TooltipTrigger>
+                        <TooltipContent>
+                            <p>Dashboard</p>
+                        </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger><li className="px-5 hover:underline cursor-pointer" onClick={logoutHandler}><LogOutIcon /></li></TooltipTrigger>
+                        <TooltipContent>
+                            <p>Logout</p>
+                        </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        {
+                            toggle ? <TooltipTrigger className="p-2 rounded-md cursor-pointer hover:opacity-90 bg-foreground text-background" onClick={lightThemeHandler}><Sun /></TooltipTrigger> :
+                                <TooltipTrigger className="p-2 rounded-md cursor-pointer hover:opacity-90 bg-foreground text-background" onClick={darkThemeHandler}><Moon /></TooltipTrigger>
+                        }
+                        <TooltipContent>
+                            <p>Theme</p>
+                        </TooltipContent>
+                    </Tooltip>
+                    {/* <Link className="pr-5 cursor-pointer hover:underline" href={"/dashboard"}><User /></Link>
+                    <li className="pr-5 hover:underline cursor-pointer" onClick={logoutHandler}><LogOutIcon /></li>
                     {
-                        toggle ? <Button className="px-5" onClick={lightThemeHandler}><Sun/></Button> :
-                            <Button className="px-5" onClick={darkThemeHandler}><Moon/></Button>
-                    }
+                        toggle ? <Button className="px-5" onClick={lightThemeHandler}><Sun /></Button> :
+                            <Button className="px-5" onClick={darkThemeHandler}><Moon /></Button>
+                    } */}
                 </ul>
             </div> :
                 <div className="hidden md:block">
