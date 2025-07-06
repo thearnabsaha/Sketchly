@@ -186,14 +186,6 @@ const Room = () => {
             <p>Eraser</p>
           </TooltipContent>
         </Tooltip>
-        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Circle" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseCircle}><Circle /></Button> */}
-        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Line" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseLine}><Slash /></Button> */}
-        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Triangle" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseTriangle}><Triangle /></Button> */}
-        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Arrow" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseArrow}><ArrowRight /></Button> */}
-        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Rhombus" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseRhombus}><Diamond /></Button> */}
-        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Text" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseText}><Heading /></Button> */}
-        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Pencil" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={choosePencil}><Pencil /></Button> */}
-        {/* <Button className={`p-2 rounded-md ${chooseShapes == "Eraser" ? "bg-foreground opacity-70" : "bg-foreground"} text-background m-1`} onClick={chooseEraser}><Eraser /></Button> */}
       </div>
       <div className=" absolute text-center mt-5 bg-accent rounded-md justify-center p-1 left-10 top-50">
         <Button className='w-full' onClick={clearCanvas}>Clear</Button>
@@ -205,7 +197,6 @@ const Room = () => {
                 <p>Undo</p>
               </TooltipContent>
             </Tooltip>
-            {/* <Button onClick={handleUndo}><Undo /></Button> */}
             <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == RedColor ? "border-white" : ""}`} style={{ backgroundColor: RedColor }} onClick={chooseColor1}></div>
             <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == BlueColor ? "border-white" : ""}`} style={{ backgroundColor: BlueColor }} onClick={chooseColor2}></div>
             <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == VioletColor ? "border-white" : ""}`} style={{ backgroundColor: VioletColor }} onClick={chooseColor3}></div>
@@ -218,7 +209,6 @@ const Room = () => {
                 <p>Redo</p>
               </TooltipContent>
             </Tooltip>
-            {/* <Button onClick={handleRedo}><Redo /></Button> */}
             <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == GoldColor ? "border-white" : ""}`} style={{ backgroundColor: GoldColor }} onClick={chooseColor5}></div>
             <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == TealColor ? "border-white" : ""}`} style={{ backgroundColor: TealColor }} onClick={chooseColor6}></div>
             <div className={`p-5 rounded-md text-background m-1 size-5 border ${chooseColors == GreyColor ? "border-white" : ""}`} style={{ backgroundColor: GreyColor }} onClick={chooseColor7}></div>

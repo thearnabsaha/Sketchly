@@ -87,12 +87,6 @@ const Navbar = ({ isSidebar }: NavbarProps) => {
                             <p>Theme</p>
                         </TooltipContent>
                     </Tooltip>
-                    {/* <Link className="pr-5 cursor-pointer hover:underline" href={"/dashboard"}><User /></Link>
-                    <li className="pr-5 hover:underline cursor-pointer" onClick={logoutHandler}><LogOutIcon /></li>
-                    {
-                        toggle ? <Button className="px-5" onClick={lightThemeHandler}><Sun /></Button> :
-                            <Button className="px-5" onClick={darkThemeHandler}><Moon /></Button>
-                    } */}
                 </ul>
             </div> :
                 <div className="hidden md:block">
@@ -106,7 +100,6 @@ const Navbar = ({ isSidebar }: NavbarProps) => {
                     </ul>
                 </div>
             }
-
         </div>
     )
 }
