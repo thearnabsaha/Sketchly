@@ -6,7 +6,7 @@ import { useState } from "react";
 import { GoCopy, GoCheck } from "react-icons/go";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useForm,ControllerRenderProps } from "react-hook-form"
 import { useRouter } from 'next/navigation';
 import {Form,FormControl,FormField,FormItem,FormMessage} from "@workspace/ui/components/form"
 import { useUserStore } from "@/lib/store/userStore";
@@ -88,7 +88,7 @@ const CreateRoom = () => {
                         <FormField
                             control={RoomInputForm.control}
                             name="roomId"
-                            render={({ field }) => (
+                            render={({ field }: { field: ControllerRenderProps<any, any> }) => (
                                 <FormItem>
                                     <FormControl>
                                         <Input placeholder="Room No." {...field} className="border border-ring md:w-84" />

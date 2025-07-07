@@ -1,7 +1,7 @@
 "use client"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useForm,ControllerRenderProps } from "react-hook-form"
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
 import {Form,FormControl,FormField,FormItem,FormMessage} from "@workspace/ui/components/form"
@@ -48,7 +48,7 @@ const Signin = () => {
                     <FormField
                         control={SigninForm.control}
                         name="username"
-                        render={({ field }) => (
+                        render={({ field }: { field: ControllerRenderProps<any, any> }) => (
                             <FormItem>
                                 <FormControl>
                                     <Input placeholder="Username" {...field} />
@@ -60,7 +60,7 @@ const Signin = () => {
                     <FormField
                         control={SigninForm.control}
                         name="password"
-                        render={({ field }) => (
+                        render={({ field }: { field: ControllerRenderProps<any, any> }) => (
                             <FormItem>
                                 <FormControl>
                                     <Input placeholder="Password" {...field} type="password" />

@@ -1,7 +1,7 @@
 "use client"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useForm,ControllerRenderProps } from "react-hook-form"
 import {Form,FormControl,FormField,FormItem,FormMessage} from "@workspace/ui/components/form"
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
@@ -43,7 +43,7 @@ const Signup = () => {
                     <FormField
                         control={SignupForm.control}
                         name="username"
-                        render={({ field }) => (
+                        render={({ field }: { field: ControllerRenderProps<any, any> }) => (
                             <FormItem>
                                 <FormControl>
                                     <Input placeholder="Username" {...field} />
@@ -55,7 +55,7 @@ const Signup = () => {
                     <FormField
                         control={SignupForm.control}
                         name="name"
-                        render={({ field }) => (
+                        render={({ field }: { field: ControllerRenderProps<any, any> }) => (
                             <FormItem>
                                 <FormControl>
                                     <Input placeholder="Name" {...field} />
@@ -67,7 +67,7 @@ const Signup = () => {
                     <FormField
                         control={SignupForm.control}
                         name="email"
-                        render={({ field }) => (
+                        render={({ field }: { field: ControllerRenderProps<any, any> }) => (
                             <FormItem>
                                 <FormControl>
                                     <Input placeholder="Email" {...field} />
@@ -79,7 +79,7 @@ const Signup = () => {
                     <FormField
                         control={SignupForm.control}
                         name="password"
-                        render={({ field }) => (
+                        render={({ field }: { field: ControllerRenderProps<any, any> }) => (
                             <FormItem>
                                 <FormControl>
                                     <Input placeholder="Password" {...field} type="password" />

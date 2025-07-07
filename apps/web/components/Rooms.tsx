@@ -12,7 +12,7 @@ import {Form,FormControl,FormDescription,FormField,FormItem,FormMessage} from "@
 import {Dialog,DialogContent,DialogDescription,DialogHeader,DialogTitle,DialogTrigger} from "@workspace/ui/components/dialog"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useForm, ControllerRenderProps } from "react-hook-form"
 import { RoomSlugSchema } from '@workspace/common/types';
 import { Input } from "@workspace/ui/components/input";
 import toast, { Toaster } from "react-hot-toast";
@@ -111,7 +111,7 @@ const Rooms = () => {
                                                             control={roomSlugform.control}
                                                             name="roomSlug"
                                                             disabled={disabled}
-                                                            render={({ field }) => (
+                                                            render={({ field }: { field: ControllerRenderProps<any, any> }) => (
                                                                 <FormItem>
                                                                     <FormControl>
                                                                         <Input placeholder="Room ID" {...field} />
@@ -145,7 +145,7 @@ const Rooms = () => {
                                                             control={roomUpdateform.control}
                                                             name="roomSlug"
                                                             disabled={disabled}
-                                                            render={({ field }) => (
+                                                            render={({ field }: { field: ControllerRenderProps<any, any> }) => (
                                                                 <FormItem>
                                                                     <FormControl>
                                                                         <Input placeholder="Room ID" {...field} />
