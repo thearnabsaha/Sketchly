@@ -13,11 +13,7 @@ import { LogOutIcon, Moon, Sun, User } from "lucide-react"
 interface NavbarProps {
     isSidebar: boolean;
 }
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@workspace/ui/components/tooltip"
+import {Tooltip,TooltipContent,TooltipTrigger} from "@workspace/ui/components/tooltip"
 const Navbar = ({ isSidebar }: NavbarProps) => {
     const router = useRouter()
     const { setUser } = useUserStore()
