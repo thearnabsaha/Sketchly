@@ -34,7 +34,7 @@ const Rooms = () => {
     const router = useRouter()
     useEffect(() => {
         const token = localStorage.getItem("token")
-        axios.get(`${BACKEND_URL}/room/`, { headers: { Authorization: token } })
+        axios.get(`${BACKEND_URL}/room`, { headers: { Authorization: token } })
             .then((e) => {
                 setroomData(e.data.room)
             })
